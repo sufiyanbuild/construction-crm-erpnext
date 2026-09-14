@@ -1,0 +1,65 @@
+[
+ {
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "question-sign",
+  "modified": "2026-09-12 12:58:55.411456",
+  "name": "Pending",
+  "style": "",
+  "workflow_state_name": "Pending"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "ok-sign",
+  "modified": "2026-09-12 12:58:55.412305",
+  "name": "Approved",
+  "style": "Success",
+  "workflow_state_name": "Approved"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "remove",
+  "modified": "2026-09-12 12:58:55.412771",
+  "name": "Rejected",
+  "style": "Danger",
+  "workflow_state_name": "Rejected"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "modified": "2026-09-14 23:57:26.474224",
+  "name": "Draft",
+  "style": "Danger",
+  "workflow_state_name": "Draft"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "modified": "2026-09-14 23:57:26.599101",
+  "name": "Not Started",
+  "style": "Danger",
+  "workflow_state_name": "Not Started"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "modified": "2026-09-14 23:57:26.600043",
+  "name": "Pending Handover",
+  "style": "Warning",
+  "workflow_state_name": "Pending Handover"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "modified": "2026-09-14 23:57:26.600863",
+  "name": "Handover Accepted",
+  "style": "Success",
+  "workflow_state_name": "Handover Accepted"
+ }
+]

@@ -1,0 +1,298 @@
+[
+ {
+  "docstatus": 0,
+  "doctype": "Workflow",
+  "document_type": "Quotation",
+  "enable_action_confirmation": 0,
+  "is_active": 1,
+  "modified": "2026-09-14 23:57:26.623078",
+  "name": "JK Quotation Approval",
+  "override_status": 0,
+  "send_email_alert": 0,
+  "states": [
+   {
+    "allow_edit": "JK Sales User",
+    "avoid_status_override": 0,
+    "doc_status": "0",
+    "evaluate_as_expression": 0,
+    "is_optional_state": 0,
+    "message": null,
+    "next_action_email_template": null,
+    "send_email": 1,
+    "state": "Draft",
+    "update_field": null,
+    "update_value": null,
+    "workflow_builder_id": null
+   },
+   {
+    "allow_edit": "JK Management",
+    "avoid_status_override": 0,
+    "doc_status": "0",
+    "evaluate_as_expression": 0,
+    "is_optional_state": 0,
+    "message": null,
+    "next_action_email_template": null,
+    "send_email": 1,
+    "state": "Pending",
+    "update_field": null,
+    "update_value": null,
+    "workflow_builder_id": null
+   },
+   {
+    "allow_edit": "JK Management",
+    "avoid_status_override": 0,
+    "doc_status": "1",
+    "evaluate_as_expression": 0,
+    "is_optional_state": 0,
+    "message": null,
+    "next_action_email_template": null,
+    "send_email": 1,
+    "state": "Approved",
+    "update_field": null,
+    "update_value": null,
+    "workflow_builder_id": null
+   },
+   {
+    "allow_edit": "JK Sales User",
+    "avoid_status_override": 0,
+    "doc_status": "0",
+    "evaluate_as_expression": 0,
+    "is_optional_state": 0,
+    "message": null,
+    "next_action_email_template": null,
+    "send_email": 1,
+    "state": "Rejected",
+    "update_field": null,
+    "update_value": null,
+    "workflow_builder_id": null
+   }
+  ],
+  "transitions": [
+   {
+    "action": "Submit for Approval",
+    "allow_self_approval": 1,
+    "allowed": "JK Sales User",
+    "condition": null,
+    "next_state": "Pending",
+    "send_email_to_creator": 0,
+    "state": "Draft",
+    "transition_tasks": null,
+    "workflow_builder_id": null
+   },
+   {
+    "action": "Approve",
+    "allow_self_approval": 1,
+    "allowed": "JK Management",
+    "condition": null,
+    "next_state": "Approved",
+    "send_email_to_creator": 0,
+    "state": "Pending",
+    "transition_tasks": null,
+    "workflow_builder_id": null
+   },
+   {
+    "action": "Reject",
+    "allow_self_approval": 1,
+    "allowed": "JK Management",
+    "condition": null,
+    "next_state": "Rejected",
+    "send_email_to_creator": 0,
+    "state": "Pending",
+    "transition_tasks": null,
+    "workflow_builder_id": null
+   }
+  ],
+  "workflow_data": null,
+  "workflow_name": "JK Quotation Approval",
+  "workflow_state_field": "workflow_state"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow",
+  "document_type": "Sales Invoice",
+  "enable_action_confirmation": 0,
+  "is_active": 1,
+  "modified": "2026-09-14 23:57:26.898877",
+  "name": "JK Sales Invoice Approval",
+  "override_status": 0,
+  "send_email_alert": 0,
+  "states": [
+   {
+    "allow_edit": "JK Finance User",
+    "avoid_status_override": 0,
+    "doc_status": "0",
+    "evaluate_as_expression": 0,
+    "is_optional_state": 0,
+    "message": null,
+    "next_action_email_template": null,
+    "send_email": 1,
+    "state": "Draft",
+    "update_field": null,
+    "update_value": null,
+    "workflow_builder_id": null
+   },
+   {
+    "allow_edit": "JK Management",
+    "avoid_status_override": 0,
+    "doc_status": "0",
+    "evaluate_as_expression": 0,
+    "is_optional_state": 0,
+    "message": null,
+    "next_action_email_template": null,
+    "send_email": 1,
+    "state": "Pending",
+    "update_field": null,
+    "update_value": null,
+    "workflow_builder_id": null
+   },
+   {
+    "allow_edit": "JK Management",
+    "avoid_status_override": 0,
+    "doc_status": "1",
+    "evaluate_as_expression": 0,
+    "is_optional_state": 0,
+    "message": null,
+    "next_action_email_template": null,
+    "send_email": 1,
+    "state": "Approved",
+    "update_field": null,
+    "update_value": null,
+    "workflow_builder_id": null
+   },
+   {
+    "allow_edit": "JK Finance User",
+    "avoid_status_override": 0,
+    "doc_status": "0",
+    "evaluate_as_expression": 0,
+    "is_optional_state": 0,
+    "message": null,
+    "next_action_email_template": null,
+    "send_email": 1,
+    "state": "Rejected",
+    "update_field": null,
+    "update_value": null,
+    "workflow_builder_id": null
+   }
+  ],
+  "transitions": [
+   {
+    "action": "Submit for Approval",
+    "allow_self_approval": 1,
+    "allowed": "JK Finance User",
+    "condition": null,
+    "next_state": "Pending",
+    "send_email_to_creator": 0,
+    "state": "Draft",
+    "transition_tasks": null,
+    "workflow_builder_id": null
+   },
+   {
+    "action": "Approve",
+    "allow_self_approval": 1,
+    "allowed": "JK Management",
+    "condition": null,
+    "next_state": "Approved",
+    "send_email_to_creator": 0,
+    "state": "Pending",
+    "transition_tasks": null,
+    "workflow_builder_id": null
+   },
+   {
+    "action": "Reject",
+    "allow_self_approval": 1,
+    "allowed": "JK Management",
+    "condition": null,
+    "next_state": "Rejected",
+    "send_email_to_creator": 0,
+    "state": "Pending",
+    "transition_tasks": null,
+    "workflow_builder_id": null
+   }
+  ],
+  "workflow_data": null,
+  "workflow_name": "JK Sales Invoice Approval",
+  "workflow_state_field": "workflow_state"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow",
+  "document_type": "Project",
+  "enable_action_confirmation": 0,
+  "is_active": 1,
+  "modified": "2026-09-14 23:57:27.156831",
+  "name": "JK Project Handover",
+  "override_status": 0,
+  "send_email_alert": 0,
+  "states": [
+   {
+    "allow_edit": "JK Sales User",
+    "avoid_status_override": 0,
+    "doc_status": "0",
+    "evaluate_as_expression": 0,
+    "is_optional_state": 0,
+    "message": null,
+    "next_action_email_template": null,
+    "send_email": 1,
+    "state": "Not Started",
+    "update_field": null,
+    "update_value": null,
+    "workflow_builder_id": null
+   },
+   {
+    "allow_edit": "JK Project Manager",
+    "avoid_status_override": 0,
+    "doc_status": "0",
+    "evaluate_as_expression": 0,
+    "is_optional_state": 0,
+    "message": null,
+    "next_action_email_template": null,
+    "send_email": 1,
+    "state": "Pending Handover",
+    "update_field": null,
+    "update_value": null,
+    "workflow_builder_id": null
+   },
+   {
+    "allow_edit": "JK Project Manager",
+    "avoid_status_override": 0,
+    "doc_status": "0",
+    "evaluate_as_expression": 0,
+    "is_optional_state": 0,
+    "message": null,
+    "next_action_email_template": null,
+    "send_email": 1,
+    "state": "Handover Accepted",
+    "update_field": null,
+    "update_value": null,
+    "workflow_builder_id": null
+   }
+  ],
+  "transitions": [
+   {
+    "action": "Initiate Handover",
+    "allow_self_approval": 1,
+    "allowed": "JK Sales User",
+    "condition": null,
+    "next_state": "Pending Handover",
+    "send_email_to_creator": 0,
+    "state": "Not Started",
+    "transition_tasks": null,
+    "workflow_builder_id": null
+   },
+   {
+    "action": "Accept Handover",
+    "allow_self_approval": 1,
+    "allowed": "JK Project Manager",
+    "condition": null,
+    "next_state": "Handover Accepted",
+    "send_email_to_creator": 0,
+    "state": "Pending Handover",
+    "transition_tasks": null,
+    "workflow_builder_id": null
+   }
+  ],
+  "workflow_data": null,
+  "workflow_name": "JK Project Handover",
+  "workflow_state_field": "jk_handover_status"
+ }
+]

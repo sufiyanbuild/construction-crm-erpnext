@@ -1,0 +1,416 @@
+[
+ {
+  "add_total_row": 0,
+  "add_translate_data": 0,
+  "columns": [],
+  "disable_prepared_report_automation": 0,
+  "disabled": 0,
+  "docstatus": 0,
+  "doctype": "Report",
+  "doctype_to_sync": [],
+  "filters": [
+   {
+    "default": "JK Demo Contracting",
+    "fieldname": "company",
+    "fieldtype": "Link",
+    "label": "Company",
+    "mandatory": 1,
+    "options": "Company",
+    "wildcard_filter": 0
+   }
+  ],
+  "is_standard": "No",
+  "javascript": null,
+  "json": null,
+  "letter_head": "Company Letterhead - Grey",
+  "modified": "2026-09-15 00:11:55.171997",
+  "module": "JK CRM",
+  "name": "JK Bid and Tender Deadline Report",
+  "prepared_report": 0,
+  "query": "SELECT o.name                              AS \"Opportunity:Link/Opportunity:150\",\n       o.jk_tender_ref_no                  AS \"Tender Ref:Data:120\",\n       o.party_name                        AS \"Customer:Data:180\",\n       o.transaction_date                  AS \"Posting Date:Date:100\",\n       o.jk_customer_bid_deadline          AS \"Customer Deadline:Datetime:160\",\n       o.jk_internal_estimation_deadline   AS \"Internal Deadline:Datetime:160\",\n       DATEDIFF(o.jk_customer_bid_deadline, NOW()) AS \"Days Left:Int:90\",\n       o.jk_estimation_engineer            AS \"Estimation Engineer:Link/User:170\",\n       o.jk_estimation_status              AS \"Estimation Status:Data:130\",\n       o.status                            AS \"Opportunity Status:Data:130\"\nFROM `tabOpportunity` o\nWHERE o.jk_is_tender = 1 AND o.company = %(company)s\nORDER BY o.jk_customer_bid_deadline ASC",
+  "ref_doctype": "Opportunity",
+  "reference_report": null,
+  "report_name": "JK Bid and Tender Deadline Report",
+  "report_script": null,
+  "report_type": "Query Report",
+  "roles": [
+   {
+    "role": "JK Sales User"
+   },
+   {
+    "role": "JK Estimation Engineer"
+   },
+   {
+    "role": "JK Management"
+   },
+   {
+    "role": "System Manager"
+   }
+  ],
+  "snapshot_report": 0,
+  "timeout": 0
+ },
+ {
+  "add_total_row": 1,
+  "add_translate_data": 0,
+  "columns": [],
+  "disable_prepared_report_automation": 0,
+  "disabled": 0,
+  "docstatus": 0,
+  "doctype": "Report",
+  "doctype_to_sync": [],
+  "filters": [
+   {
+    "default": "JK Demo Contracting",
+    "fieldname": "company",
+    "fieldtype": "Link",
+    "label": "Company",
+    "mandatory": 1,
+    "options": "Company",
+    "wildcard_filter": 0
+   }
+  ],
+  "is_standard": "No",
+  "javascript": null,
+  "json": null,
+  "letter_head": "Company Letterhead - Grey",
+  "modified": "2026-09-15 00:11:55.184598",
+  "module": "JK CRM",
+  "name": "JK Estimation Workload Report",
+  "prepared_report": 0,
+  "query": "SELECT o.jk_estimation_engineer AS \"Estimation Engineer:Link/User:200\",\n       COUNT(*)                 AS \"Total Assigned:Int:120\",\n       SUM(CASE WHEN o.jk_estimation_status = 'Not Started' THEN 1 ELSE 0 END) AS \"Not Started:Int:110\",\n       SUM(CASE WHEN o.jk_estimation_status = 'In Progress' THEN 1 ELSE 0 END) AS \"In Progress:Int:110\",\n       SUM(CASE WHEN o.jk_estimation_status = 'Completed'  THEN 1 ELSE 0 END) AS \"Completed:Int:110\",\n       SUM(CASE WHEN o.jk_internal_estimation_deadline < NOW()\n                 AND o.jk_estimation_status NOT IN ('Completed','Submitted') THEN 1 ELSE 0 END) AS \"Overdue:Int:100\"\nFROM `tabOpportunity` o\nWHERE IFNULL(o.jk_estimation_engineer, '') != '' AND o.company = %(company)s\nGROUP BY o.jk_estimation_engineer\nORDER BY 6 DESC, 2 DESC",
+  "ref_doctype": "Opportunity",
+  "reference_report": null,
+  "report_name": "JK Estimation Workload Report",
+  "report_script": null,
+  "report_type": "Query Report",
+  "roles": [
+   {
+    "role": "JK Estimation Engineer"
+   },
+   {
+    "role": "JK Management"
+   },
+   {
+    "role": "System Manager"
+   }
+  ],
+  "snapshot_report": 0,
+  "timeout": 0
+ },
+ {
+  "add_total_row": 0,
+  "add_translate_data": 0,
+  "columns": [],
+  "disable_prepared_report_automation": 0,
+  "disabled": 0,
+  "docstatus": 0,
+  "doctype": "Report",
+  "doctype_to_sync": [],
+  "filters": [
+   {
+    "default": "JK Demo Contracting",
+    "fieldname": "company",
+    "fieldtype": "Link",
+    "label": "Company",
+    "mandatory": 1,
+    "options": "Company",
+    "wildcard_filter": 0
+   }
+  ],
+  "is_standard": "No",
+  "javascript": null,
+  "json": null,
+  "letter_head": "Company Letterhead - Grey",
+  "modified": "2026-09-15 00:11:55.193853",
+  "module": "JK CRM",
+  "name": "JK Pending Approval Report",
+  "prepared_report": 0,
+  "query": "SELECT 'Quotation' AS \"Document Type:Data:130\", q.name AS \"Document:Data:170\",\n       q.party_name AS \"Party:Data:190\", q.grand_total AS \"Amount:Currency:140\",\n       q.workflow_state AS \"Workflow State:Data:130\", q.modified AS \"Waiting Since:Datetime:160\"\nFROM `tabQuotation` q WHERE q.workflow_state = 'Pending' AND q.company = %(company)s\nUNION ALL\nSELECT 'Sales Invoice', si.name, si.customer, si.grand_total, si.workflow_state, si.modified\nFROM `tabSales Invoice` si WHERE si.workflow_state = 'Pending' AND si.company = %(company)s\nUNION ALL\nSELECT 'Project (Handover)', p.name, p.customer, 0, p.jk_handover_status, p.modified\nFROM `tabProject` p WHERE p.jk_handover_status = 'Pending Handover' AND p.company = %(company)s\nORDER BY 6 ASC",
+  "ref_doctype": "Quotation",
+  "reference_report": null,
+  "report_name": "JK Pending Approval Report",
+  "report_script": null,
+  "report_type": "Query Report",
+  "roles": [
+   {
+    "role": "JK Management"
+   },
+   {
+    "role": "JK Sales User"
+   },
+   {
+    "role": "JK Estimation Engineer"
+   },
+   {
+    "role": "JK Project Manager"
+   },
+   {
+    "role": "JK Finance User"
+   },
+   {
+    "role": "JK Procurement User"
+   },
+   {
+    "role": "System Manager"
+   }
+  ],
+  "snapshot_report": 0,
+  "timeout": 0
+ },
+ {
+  "add_total_row": 1,
+  "add_translate_data": 0,
+  "columns": [],
+  "disable_prepared_report_automation": 0,
+  "disabled": 0,
+  "docstatus": 0,
+  "doctype": "Report",
+  "doctype_to_sync": [],
+  "filters": [
+   {
+    "default": "JK Demo Contracting",
+    "fieldname": "company",
+    "fieldtype": "Link",
+    "label": "Company",
+    "mandatory": 1,
+    "options": "Company",
+    "wildcard_filter": 0
+   }
+  ],
+  "is_standard": "No",
+  "javascript": null,
+  "json": null,
+  "letter_head": "Company Letterhead - Grey",
+  "modified": "2026-09-15 00:11:55.202282",
+  "module": "JK CRM",
+  "name": "JK Retention Report",
+  "prepared_report": 0,
+  "query": "SELECT r.name              AS \"Retention Entry:Link/JK Retention Entry:170\",\n       r.project           AS \"Project:Link/Project:150\",\n       p.jk_project_code   AS \"Project Code:Data:110\",\n       r.customer          AS \"Customer:Link/Customer:180\",\n       r.sales_invoice     AS \"Source Invoice:Link/Sales Invoice:170\",\n       r.retention_amount  AS \"Retention Amount:Currency:150\",\n       r.release_due_date  AS \"Release Due:Date:110\",\n       DATEDIFF(r.release_due_date, CURDATE()) AS \"Days To Release:Int:120\",\n       r.status            AS \"Status:Data:100\"\nFROM `tabJK Retention Entry` r\nLEFT JOIN `tabProject` p ON p.name = r.project\nWHERE r.docstatus = 1 AND r.company = %(company)s\nORDER BY r.release_due_date ASC",
+  "ref_doctype": "JK Retention Entry",
+  "reference_report": null,
+  "report_name": "JK Retention Report",
+  "report_script": null,
+  "report_type": "Query Report",
+  "roles": [
+   {
+    "role": "JK Finance User"
+   },
+   {
+    "role": "JK Management"
+   },
+   {
+    "role": "JK Project Manager"
+   },
+   {
+    "role": "System Manager"
+   }
+  ],
+  "snapshot_report": 0,
+  "timeout": 0
+ },
+ {
+  "add_total_row": 1,
+  "add_translate_data": 0,
+  "columns": [],
+  "disable_prepared_report_automation": 0,
+  "disabled": 0,
+  "docstatus": 0,
+  "doctype": "Report",
+  "doctype_to_sync": [],
+  "filters": [
+   {
+    "default": "JK Demo Contracting",
+    "fieldname": "company",
+    "fieldtype": "Link",
+    "label": "Company",
+    "mandatory": 1,
+    "options": "Company",
+    "wildcard_filter": 0
+   }
+  ],
+  "is_standard": "No",
+  "javascript": null,
+  "json": null,
+  "letter_head": "Company Letterhead - Grey",
+  "modified": "2026-09-15 00:11:55.210062",
+  "module": "JK CRM",
+  "name": "JK Variation Order Report",
+  "prepared_report": 0,
+  "query": "SELECT q.name                 AS \"Variation Quotation:Link/Quotation:180\",\n       q.jk_variation_project AS \"Project:Link/Project:150\",\n       p.jk_project_code      AS \"Project Code:Data:110\",\n       q.party_name           AS \"Customer:Data:180\",\n       q.transaction_date     AS \"Posting Date:Date:100\",\n       q.grand_total          AS \"Variation Amount:Currency:150\",\n       q.jk_variation_reason  AS \"Reason:Data:260\",\n       q.workflow_state       AS \"Approval:Data:110\",\n       q.status               AS \"Status:Data:100\"\nFROM `tabQuotation` q\nLEFT JOIN `tabProject` p ON p.name = q.jk_variation_project\nWHERE q.jk_is_variation_order = 1 AND q.company = %(company)s\nORDER BY q.transaction_date DESC",
+  "ref_doctype": "Quotation",
+  "reference_report": null,
+  "report_name": "JK Variation Order Report",
+  "report_script": null,
+  "report_type": "Query Report",
+  "roles": [
+   {
+    "role": "JK Sales User"
+   },
+   {
+    "role": "JK Project Manager"
+   },
+   {
+    "role": "JK Management"
+   },
+   {
+    "role": "JK Finance User"
+   },
+   {
+    "role": "System Manager"
+   }
+  ],
+  "snapshot_report": 0,
+  "timeout": 0
+ },
+ {
+  "add_total_row": 0,
+  "add_translate_data": 0,
+  "columns": [],
+  "disable_prepared_report_automation": 0,
+  "disabled": 0,
+  "docstatus": 0,
+  "doctype": "Report",
+  "doctype_to_sync": [],
+  "filters": [
+   {
+    "default": "JK Demo Contracting",
+    "fieldname": "company",
+    "fieldtype": "Link",
+    "label": "Company",
+    "mandatory": 1,
+    "options": "Company",
+    "wildcard_filter": 0
+   }
+  ],
+  "is_standard": "No",
+  "javascript": null,
+  "json": null,
+  "letter_head": "Company Letterhead - Grey",
+  "modified": "2026-09-15 00:11:55.218179",
+  "module": "JK CRM",
+  "name": "JK Warranty and Guarantee Report",
+  "prepared_report": 0,
+  "query": "SELECT p.name                     AS \"Project:Link/Project:160\",\n       p.jk_project_code          AS \"Project Code:Data:110\",\n       p.project_name             AS \"Project Name:Data:210\",\n       p.customer                 AS \"Customer:Link/Customer:180\",\n       p.jk_warranty_start_date   AS \"Warranty Start:Date:120\",\n       p.jk_warranty_period_months AS \"Months:Int:80\",\n       p.jk_warranty_end_date     AS \"Warranty End:Date:120\",\n       DATEDIFF(p.jk_warranty_end_date, CURDATE()) AS \"Days Remaining:Int:120\",\n       p.jk_project_manager       AS \"Project Manager:Link/User:170\"\nFROM `tabProject` p\nWHERE p.jk_has_warranty = 1 AND p.company = %(company)s\nORDER BY p.jk_warranty_end_date ASC",
+  "ref_doctype": "Project",
+  "reference_report": null,
+  "report_name": "JK Warranty and Guarantee Report",
+  "report_script": null,
+  "report_type": "Query Report",
+  "roles": [
+   {
+    "role": "JK Project Manager"
+   },
+   {
+    "role": "JK Management"
+   },
+   {
+    "role": "JK Site Supervisor"
+   },
+   {
+    "role": "System Manager"
+   }
+  ],
+  "snapshot_report": 0,
+  "timeout": 0
+ },
+ {
+  "add_total_row": 1,
+  "add_translate_data": 0,
+  "columns": [],
+  "disable_prepared_report_automation": 0,
+  "disabled": 0,
+  "docstatus": 0,
+  "doctype": "Report",
+  "doctype_to_sync": [],
+  "filters": [
+   {
+    "default": "JK Demo Contracting",
+    "fieldname": "company",
+    "fieldtype": "Link",
+    "label": "Company",
+    "mandatory": 1,
+    "options": "Company",
+    "wildcard_filter": 0
+   }
+  ],
+  "is_standard": "No",
+  "javascript": null,
+  "json": null,
+  "letter_head": "Company Letterhead - Grey",
+  "modified": "2026-09-15 00:11:55.225870",
+  "module": "JK CRM",
+  "name": "JK Invoice Status Report",
+  "prepared_report": 0,
+  "query": "SELECT si.name               AS \"Invoice:Link/Sales Invoice:170\",\n       si.posting_date       AS \"Posting Date:Date:100\",\n       si.customer           AS \"Customer:Link/Customer:180\",\n       si.project            AS \"Project:Link/Project:150\",\n       si.jk_billing_type    AS \"Billing Type:Data:120\",\n       si.grand_total        AS \"Grand Total:Currency:140\",\n       si.outstanding_amount AS \"Outstanding:Currency:140\",\n       si.due_date           AS \"Due Date:Date:100\",\n       si.jk_invoice_status  AS \"Invoice Status:Data:130\",\n       si.jk_zatca_status    AS \"ZATCA Status:Data:140\"\nFROM `tabSales Invoice` si\nWHERE si.docstatus < 2 AND si.company = %(company)s\nORDER BY si.posting_date DESC",
+  "ref_doctype": "Sales Invoice",
+  "reference_report": null,
+  "report_name": "JK Invoice Status Report",
+  "report_script": null,
+  "report_type": "Query Report",
+  "roles": [
+   {
+    "role": "JK Finance User"
+   },
+   {
+    "role": "JK Management"
+   },
+   {
+    "role": "System Manager"
+   }
+  ],
+  "snapshot_report": 0,
+  "timeout": 0
+ },
+ {
+  "add_total_row": 1,
+  "add_translate_data": 0,
+  "columns": [],
+  "disable_prepared_report_automation": 0,
+  "disabled": 0,
+  "docstatus": 0,
+  "doctype": "Report",
+  "doctype_to_sync": [],
+  "filters": [
+   {
+    "default": "JK Demo Contracting",
+    "fieldname": "company",
+    "fieldtype": "Link",
+    "label": "Company",
+    "mandatory": 1,
+    "options": "Company",
+    "wildcard_filter": 0
+   }
+  ],
+  "is_standard": "No",
+  "javascript": null,
+  "json": null,
+  "letter_head": "Company Letterhead - Grey",
+  "modified": "2026-09-15 00:11:55.233712",
+  "module": "JK CRM",
+  "name": "JK Project Commercial Summary",
+  "prepared_report": 0,
+  "query": "SELECT p.name              AS \"Project:Link/Project:160\",\n       p.jk_project_code   AS \"Code:Data:100\",\n       p.project_name      AS \"Project Name:Data:200\",\n       p.customer          AS \"Customer:Link/Customer:170\",\n       p.jk_project_manager AS \"Project Manager:Link/User:170\",\n       p.status            AS \"Status:Data:100\",\n       p.percent_complete  AS \"Percent Complete:Percent:130\",\n       IFNULL(so.ordered, 0)     AS \"Order Value:Currency:140\",\n       IFNULL(si.invoiced, 0)    AS \"Invoiced:Currency:130\",\n       IFNULL(si.outstanding, 0) AS \"Outstanding:Currency:130\",\n       IFNULL(ret.retained, 0)   AS \"Retention Held:Currency:140\",\n       IFNULL(po.purchased, 0)   AS \"Procurement Cost:Currency:150\"\nFROM `tabProject` p\nLEFT JOIN (SELECT project, SUM(grand_total) ordered FROM `tabSales Order`\n           WHERE docstatus = 1 GROUP BY project) so ON so.project = p.name\nLEFT JOIN (SELECT project, SUM(grand_total) invoiced, SUM(outstanding_amount) outstanding\n           FROM `tabSales Invoice` WHERE docstatus = 1 GROUP BY project) si ON si.project = p.name\nLEFT JOIN (SELECT project, SUM(retention_amount) retained FROM `tabJK Retention Entry`\n           WHERE docstatus = 1 AND status != 'Released' GROUP BY project) ret ON ret.project = p.name\nLEFT JOIN (SELECT jk_project, SUM(grand_total) purchased FROM `tabPurchase Order`\n           WHERE docstatus = 1 GROUP BY jk_project) po ON po.jk_project = p.name\nWHERE IFNULL(p.jk_project_code, '') != '' AND p.company = %(company)s\nORDER BY p.creation DESC",
+  "ref_doctype": "Project",
+  "reference_report": null,
+  "report_name": "JK Project Commercial Summary",
+  "report_script": null,
+  "report_type": "Query Report",
+  "roles": [
+   {
+    "role": "JK Project Manager"
+   },
+   {
+    "role": "JK Finance User"
+   },
+   {
+    "role": "JK Management"
+   },
+   {
+    "role": "System Manager"
+   }
+  ],
+  "snapshot_report": 0,
+  "timeout": 0
+ }
+]

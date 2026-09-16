@@ -11,6 +11,8 @@ import frappe
 from frappe import _
 from frappe.utils import add_days, add_months, flt, getdate, now_datetime, nowdate
 
+from jk_crm.utils import get_retention_fallback_days
+
 
 # ---------------------------------------------------------------- Opportunity
 def opportunity_validate(doc, method=None):
@@ -107,7 +109,9 @@ def sales_invoice_validate(doc, method=None):
 				so = frappe.db.get_value("Sales Order",
 					{"project": doc.project, "docstatus": 1}, "jk_retention_period_days")
 				days = int(so or 0)
-			doc.jk_retention_release_date = add_days(getdate(doc.posting_date), days or 365)
+			doc.jk_retention_release_date = add_days(
+				getdate(doc.posting_date), days or get_retention_fallback_days()
+			)
 	else:
 		doc.jk_retention_amount = 0
 

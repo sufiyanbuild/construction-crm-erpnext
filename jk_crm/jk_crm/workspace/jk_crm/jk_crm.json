@@ -1,0 +1,343 @@
+{
+ "app": "jk_crm",
+ "charts": [
+  {
+   "chart_name": "JK Invoice Status Mix",
+   "label": "JK Invoice Status Mix"
+  }
+ ],
+ "content": "[{\"id\": \"jkspacer\", \"type\": \"spacer\", \"data\": {\"col\": 12}}, {\"id\": \"jkcard0\", \"type\": \"number_card\", \"data\": {\"number_card_name\": \"Open Tenders\", \"col\": 4}}, {\"id\": \"jkcard1\", \"type\": \"number_card\", \"data\": {\"number_card_name\": \"Estimations Pending\", \"col\": 4}}, {\"id\": \"jkcard2\", \"type\": \"number_card\", \"data\": {\"number_card_name\": \"Quotations Awaiting Approval\", \"col\": 4}}, {\"id\": \"jkcard3\", \"type\": \"number_card\", \"data\": {\"number_card_name\": \"Ongoing Projects\", \"col\": 4}}, {\"id\": \"jkcard4\", \"type\": \"number_card\", \"data\": {\"number_card_name\": \"Overdue Invoices\", \"col\": 4}}, {\"id\": \"jkcard5\", \"type\": \"number_card\", \"data\": {\"number_card_name\": \"Total Receivable\", \"col\": 4}}, {\"id\": \"jkchart\", \"type\": \"chart\", \"data\": {\"chart_name\": \"JK Invoice Status Mix\", \"col\": 12}}, {\"id\": \"jkhead\", \"type\": \"header\", \"data\": {\"text\": \"<span class=\\\"h4\\\"><b>Documents &amp; Reports</b></span>\", \"col\": 12}}, {\"id\": \"jkc982348\", \"type\": \"card\", \"data\": {\"card_name\": \"Sales & Tendering\", \"col\": 4}}, {\"id\": \"jkc846414\", \"type\": \"card\", \"data\": {\"card_name\": \"Projects\", \"col\": 4}}, {\"id\": \"jkc741907\", \"type\": \"card\", \"data\": {\"card_name\": \"Billing & Retention\", \"col\": 4}}, {\"id\": \"jkc433516\", \"type\": \"card\", \"data\": {\"card_name\": \"Reports\", \"col\": 4}}, {\"id\": \"jkc282304\", \"type\": \"card\", \"data\": {\"card_name\": \"Configuration\", \"col\": 4}}]",
+ "creation": "2026-09-16 12:18:01.572102",
+ "custom_blocks": [],
+ "docstatus": 0,
+ "doctype": "Workspace",
+ "hide_custom": 0,
+ "icon": "crm",
+ "idx": 0,
+ "indicator_color": "blue",
+ "is_hidden": 0,
+ "label": "JK CRM",
+ "link_type": "DocType",
+ "links": [
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Sales & Tendering",
+   "link_count": 0,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Lead",
+   "link_count": 0,
+   "link_to": "Lead",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Opportunity",
+   "link_count": 0,
+   "link_to": "Opportunity",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Quotation",
+   "link_count": 0,
+   "link_to": "Quotation",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Sales Order",
+   "link_count": 0,
+   "link_to": "Sales Order",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Projects",
+   "link_count": 0,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Project",
+   "link_count": 0,
+   "link_to": "Project",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Task",
+   "link_count": 0,
+   "link_to": "Task",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Purchase Order",
+   "link_count": 0,
+   "link_to": "Purchase Order",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Delivery Note",
+   "link_count": 0,
+   "link_to": "Delivery Note",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Billing & Retention",
+   "link_count": 0,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Sales Invoice",
+   "link_count": 0,
+   "link_to": "Sales Invoice",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Payment Entry",
+   "link_count": 0,
+   "link_to": "Payment Entry",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "JK Retention Entry",
+   "link_count": 0,
+   "link_to": "JK Retention Entry",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Reports",
+   "link_count": 0,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "JK Bid and Tender Deadline Report",
+   "link_count": 0,
+   "link_to": "JK Bid and Tender Deadline Report",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "JK Estimation Workload Report",
+   "link_count": 0,
+   "link_to": "JK Estimation Workload Report",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "JK Pending Approval Report",
+   "link_count": 0,
+   "link_to": "JK Pending Approval Report",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "JK Invoice Status Report",
+   "link_count": 0,
+   "link_to": "JK Invoice Status Report",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "JK Retention Report",
+   "link_count": 0,
+   "link_to": "JK Retention Report",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "JK Variation Order Report",
+   "link_count": 0,
+   "link_to": "JK Variation Order Report",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "JK Warranty and Guarantee Report",
+   "link_count": 0,
+   "link_to": "JK Warranty and Guarantee Report",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "JK Project Commercial Summary",
+   "link_count": 0,
+   "link_to": "JK Project Commercial Summary",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Configuration",
+   "link_count": 0,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "JK CRM Settings",
+   "link_count": 0,
+   "link_to": "JK CRM Settings",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  }
+ ],
+ "modified": "2026-09-16 12:18:01.572102",
+ "modified_by": "Administrator",
+ "module": "JK CRM",
+ "name": "JK CRM",
+ "number_cards": [
+  {
+   "label": "Open Tenders",
+   "number_card_name": "Open Tenders"
+  },
+  {
+   "label": "Estimations Pending",
+   "number_card_name": "Estimations Pending"
+  },
+  {
+   "label": "Quotations Awaiting Approval",
+   "number_card_name": "Quotations Awaiting Approval"
+  },
+  {
+   "label": "Ongoing Projects",
+   "number_card_name": "Ongoing Projects"
+  },
+  {
+   "label": "Overdue Invoices",
+   "number_card_name": "Overdue Invoices"
+  },
+  {
+   "label": "Total Receivable",
+   "number_card_name": "Total Receivable"
+  }
+ ],
+ "owner": "Administrator",
+ "public": 1,
+ "quick_lists": [],
+ "roles": [],
+ "sequence_id": 12.0,
+ "shortcuts": [
+  {
+   "doc_view": "",
+   "label": "Opportunity",
+   "link_to": "Opportunity",
+   "type": "DocType"
+  },
+  {
+   "doc_view": "",
+   "label": "Quotation",
+   "link_to": "Quotation",
+   "type": "DocType"
+  },
+  {
+   "doc_view": "",
+   "label": "Project",
+   "link_to": "Project",
+   "type": "DocType"
+  },
+  {
+   "doc_view": "",
+   "label": "Sales Invoice",
+   "link_to": "Sales Invoice",
+   "type": "DocType"
+  },
+  {
+   "doc_view": "",
+   "label": "JK Retention Entry",
+   "link_to": "JK Retention Entry",
+   "type": "DocType"
+  },
+  {
+   "doc_view": "",
+   "label": "JK CRM Settings",
+   "link_to": "JK CRM Settings",
+   "type": "DocType"
+  }
+ ],
+ "title": "JK CRM",
+ "type": "Workspace"
+}

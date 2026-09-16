@@ -1,8 +1,12 @@
 import frappe
 
+from jk_crm.utils import get_notification_channel, has_outgoing_email
+
 # BRD-06: deadline alerts, pending approvals, expiring quotations, follow-ups.
-# Channel is System Notification so the demo site needs no SMTP configuration;
-# switching to Email on the client server is a one-field change.
+# The channel is read from JK CRM Settings at build time rather than hardcoded,
+# so a client server with SMTP configured gets Email without a code change. When
+# Email is requested but no outgoing account exists we fall back rather than
+# queueing mail that can never leave the server.
 
 NOTIFICATIONS = [
 	{
@@ -91,6 +95,14 @@ NOTIFICATIONS = [
 
 
 def execute():
+	channel = get_notification_channel()
+	if channel == "Email":
+		print("Notification channel: Email (default outgoing account found).")
+	elif has_outgoing_email():
+		print("Notification channel: System Notification (Email available but not selected).")
+	else:
+		print("Notification channel: System Notification (no outgoing Email Account on this site).")
+
 	for spec in NOTIFICATIONS:
 		if frappe.db.exists("Notification", spec["name"]):
 			print(f"SKIP notification (exists): {spec['name']}")
@@ -101,7 +113,7 @@ def execute():
 			"subject": spec["subject"],
 			"document_type": spec["document_type"],
 			"event": spec["event"],
-			"channel": "System Notification",
+			"channel": channel,
 			"enabled": 1,
 			"is_standard": 0,
 			"send_system_notification": 1,

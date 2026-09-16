@@ -1,0 +1,80 @@
+{
+ "actions": [],
+ "creation": "2026-09-16 09:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "scope_section",
+  "default_company",
+  "scope_cb",
+  "notification_channel",
+  "commercial_section",
+  "retention_fallback_days"
+ ],
+ "fields": [
+  {
+   "fieldname": "scope_section",
+   "fieldtype": "Section Break",
+   "label": "Scope"
+  },
+  {
+   "description": "Company used by the JK CRM reports, number cards and dashboard charts. Set this once per site; nothing in the app hardcodes a company.",
+   "fieldname": "default_company",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Default Company",
+   "options": "Company"
+  },
+  {
+   "fieldname": "scope_cb",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "System Notification",
+   "description": "Delivery channel for the JK notifications. Email requires a default outgoing Email Account; the app falls back to System Notification when none exists.",
+   "fieldname": "notification_channel",
+   "fieldtype": "Select",
+   "label": "Notification Channel",
+   "options": "System Notification\nEmail"
+  },
+  {
+   "fieldname": "commercial_section",
+   "fieldtype": "Section Break",
+   "label": "Commercial Defaults"
+  },
+  {
+   "default": "365",
+   "description": "Fallback retention period used only when the Sales Order carries no retention period. PENDING CLIENT CONFIRMATION - see BRD-18.",
+   "fieldname": "retention_fallback_days",
+   "fieldtype": "Int",
+   "label": "Retention Fallback Period (Days)"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "issingle": 1,
+ "links": [],
+ "modified": "2026-09-16 09:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "JK CRM",
+ "name": "JK CRM Settings",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "read": 1,
+   "role": "JK Management"
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

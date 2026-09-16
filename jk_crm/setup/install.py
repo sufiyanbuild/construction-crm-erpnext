@@ -6,7 +6,7 @@ and are run by hand (jk_crm.setup.demo_masters / demo_lifecycle).
 
 import frappe
 
-from jk_crm.setup import custom_fields, dashboards, notifications, reports, roles, workflows
+from jk_crm.setup import custom_fields, dashboards, notifications, reports, roles, workflows, workspace
 
 
 def after_install():
@@ -17,5 +17,6 @@ def after_install():
 	notifications.create_opportunity_type()
 	reports.execute()
 	dashboards.execute()
+	workspace.execute()
 	frappe.db.commit()
 	print("jk_crm configuration installed (BRD QN-2026-0010).")

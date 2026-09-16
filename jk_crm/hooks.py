@@ -53,9 +53,11 @@ fixtures = [
 		"Submit for Approval", "Approve", "Reject",
 		"Initiate Handover", "Accept Handover"]]]},
 	{"dt": "Notification", "filters": [["name", "like", "JK %"]]},
-	{"dt": "Report", "filters": [["name", "like", "JK %"]]},
-	{"dt": "Number Card", "filters": [["module", "=", "JK CRM"]]},
-	{"dt": "Dashboard Chart", "filters": [["module", "=", "JK CRM"]]},
-	{"dt": "Dashboard", "filters": [["module", "=", "JK CRM"]]},
 	{"dt": "Opportunity Type", "filters": [["name", "in", ["Tender"]]]},
 ]
+
+# Report, Number Card, Dashboard Chart, Dashboard and Workspace are deliberately
+# NOT exported as fixtures. Each one embeds a company in its filters, so shipping
+# them would carry this site's company to every client server and a migrate would
+# keep restoring it. They are built per site instead, from JK CRM Settings, by
+# jk_crm.setup.reports / dashboards / workspace during after_install.

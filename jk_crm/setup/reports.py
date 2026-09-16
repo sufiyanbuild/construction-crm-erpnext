@@ -1,5 +1,7 @@
 import frappe
 
+from jk_crm.utils import get_default_company
+
 # BRD-26 / BRD-27: the reports ERPNext does not ship. Posting date AND deadline
 # date appear together wherever the BRD asks for it (BRD-27).
 
@@ -183,6 +185,23 @@ ORDER BY p.creation DESC
 ]
 
 
+def company_report_filter():
+	"""Company filter for every JK query report.
+
+	The default is resolved per site rather than shipped with the app. When no
+	company is configured the filter simply opens empty and the user picks one -
+	the filter stays mandatory either way, so no report can run unscoped.
+	"""
+	return {
+		"fieldname": "company",
+		"label": "Company",
+		"fieldtype": "Link",
+		"options": "Company",
+		"mandatory": 1,
+		"default": get_default_company() or "",
+	}
+
+
 def execute():
 	for spec in REPORTS:
 		if frappe.db.exists("Report", spec["name"]):
@@ -198,10 +217,7 @@ def execute():
 			"add_total_row": spec["add_total_row"],
 			"query": spec["query"].strip(),
 				"roles": [{"role": r} for r in spec["roles"] if frappe.db.exists("Role", r)],
-			"filters": [{
-				"fieldname": "company", "label": "Company", "fieldtype": "Link",
-				"options": "Company", "mandatory": 1, "default": "JK Demo Contracting",
-			}],
+			"filters": [company_report_filter()],
 		}).insert(ignore_permissions=True)
 		print(f"CREATED report: {spec['name']}")
 	frappe.db.commit()

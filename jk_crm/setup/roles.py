@@ -1,6 +1,22 @@
+"""Roles (product) and demo users (demo only).
+
+create_roles() is product configuration and runs on install. create_users(),
+create_sales_persons() and execute() are DEMO ONLY - they create eleven
+fictional users and must never be run on a client site. install.py deliberately
+calls only create_roles().
+"""
+
 import frappe
 
-COMPANY = "JK Demo Contracting"
+# Demo company, used only by the demo-only functions below. Resolved from
+# settings so a demo on a differently-named company still pins users correctly.
+DEMO_COMPANY = "JK Demo Contracting"
+
+
+def _company():
+	from jk_crm.utils import get_default_company
+
+	return get_default_company() or DEMO_COMPANY
 
 # BRD section 3 user groups -> a JK role that carries the departmental meaning,
 # paired with the stock ERPNext roles that actually grant doctype access.
@@ -15,7 +31,8 @@ ROLE_MAP = {
 	"JK Management": ["Sales Manager", "Projects Manager", "Accounts Manager", "Purchase Manager"],
 }
 
-# BRD-29: minimum 10 user accounts with departmental visibility.
+# DEMO ONLY. BRD-29 asks for a minimum of 10 accounts; these eleven demonstrate
+# that on the demo site. The client's real user list is an open BRD point.
 USERS = [
 	("sales.manager@jkdemo.local", "Omar", "Al-Harbi", "JK Sales User"),
 	("sales.exec@jkdemo.local", "Layla", "Siddiqui", "JK Sales User"),
@@ -43,6 +60,7 @@ def create_roles():
 
 
 def create_users():
+	"""DEMO ONLY - creates fictional users. Never run on a client site."""
 	for email, first, last, jk_role in USERS:
 		if frappe.db.exists("User", email):
 			user = frappe.get_doc("User", email)
@@ -62,17 +80,18 @@ def create_users():
 		user.save(ignore_permissions=True)
 
 		# BRD-29 departmental visibility: pin every demo user to the demo company.
+		company = _company()
 		if not frappe.db.exists("User Permission",
-				{"user": email, "allow": "Company", "for_value": COMPANY}):
+				{"user": email, "allow": "Company", "for_value": company}):
 			frappe.get_doc({
 				"doctype": "User Permission", "user": email,
-				"allow": "Company", "for_value": COMPANY, "apply_to_all_doctypes": 1,
+				"allow": "Company", "for_value": company, "apply_to_all_doctypes": 1,
 			}).insert(ignore_permissions=True)
 	frappe.db.commit()
 
 
 def create_sales_persons():
-	"""BRD-03: representative assignment needs Sales Person records."""
+	"""DEMO ONLY. BRD-03: representative assignment needs Sales Person records."""
 	root = frappe.db.get_value("Sales Person", {"is_group": 1, "parent_sales_person": ""}, "name") \
 		or frappe.db.get_value("Sales Person", {"is_group": 1}, "name")
 	for email, first, last, jk_role in USERS:
@@ -90,6 +109,7 @@ def create_sales_persons():
 
 
 def execute():
+	"""DEMO ONLY - full demo user provisioning. install.py calls create_roles()."""
 	create_roles()
 	create_users()
 	create_sales_persons()

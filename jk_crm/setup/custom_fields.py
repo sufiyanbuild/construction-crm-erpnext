@@ -41,8 +41,12 @@ CUSTOM_FIELDS = {
 		{"fieldname": "jk_requester_name", "label": "Requester / Contact Name", "fieldtype": "Data",
 		 "insert_after": "jk_customer_bid_deadline"},
 		{"fieldname": "jk_tender_cb", "fieldtype": "Column Break", "insert_after": "jk_requester_name"},
+		{"fieldname": "jk_sales_representative", "label": "Sales Representative", "fieldtype": "Link",
+		 "options": "User", "insert_after": "jk_tender_cb", "in_standard_filter": 1,
+		 "description": "Representative responsible for this tender/bid (BRD-03). Defaults from the "
+						"originating Lead's owner."},
 		{"fieldname": "jk_estimation_engineer", "label": "Estimation Engineer", "fieldtype": "Link", "options": "User",
-		 "insert_after": "jk_tender_cb", "description": "Owner of the estimate (BRD-04)."},
+		 "insert_after": "jk_sales_representative", "description": "Owner of the estimate (BRD-04)."},
 		{"fieldname": "jk_internal_estimation_deadline", "label": "Internal Estimation Deadline", "fieldtype": "Datetime",
 		 "insert_after": "jk_estimation_engineer",
 		 "description": "Must fall on or before the customer deadline so review/approval can finish first (BRD-05)."},

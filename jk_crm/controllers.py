@@ -34,6 +34,14 @@ def opportunity_validate(doc, method=None):
 	if doc.get("jk_estimation_status") in ("Completed", "Submitted") and not doc.get("jk_estimation_completed_on"):
 		doc.jk_estimation_completed_on = now_datetime()
 
+	# BRD-03: carry the representative across from the originating Lead rather
+	# than asking sales to retype it. Not enforced as mandatory - whether it
+	# must be set is an open client decision.
+	if not doc.get("jk_sales_representative") and doc.get("opportunity_from") == "Lead" and doc.get("party_name"):
+		owner = frappe.db.get_value("Lead", doc.party_name, "lead_owner")
+		if owner:
+			doc.jk_sales_representative = owner
+
 
 # ------------------------------------------------------------------ Quotation
 def quotation_validate(doc, method=None):

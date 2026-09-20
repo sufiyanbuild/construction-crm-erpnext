@@ -22,6 +22,7 @@ SELECT o.name                              AS "Opportunity:Link/Opportunity:150"
        o.jk_customer_bid_deadline          AS "Customer Deadline:Datetime:160",
        o.jk_internal_estimation_deadline   AS "Internal Deadline:Datetime:160",
        DATEDIFF(o.jk_customer_bid_deadline, NOW()) AS "Days Left:Int:90",
+       o.jk_sales_representative           AS "Representative:Link/User:150",
        o.jk_estimation_engineer            AS "Estimation Engineer:Link/User:170",
        o.jk_estimation_status              AS "Estimation Status:Data:130",
        o.status                            AS "Opportunity Status:Data:130"

@@ -52,6 +52,16 @@ doc_events = {
 	},
 }
 
+# BRD-29. Both return "no restriction" unless the site opts in via
+# JK CRM Settings, so default behaviour is unchanged.
+permission_query_conditions = {
+	"Project": "jk_crm.setup.access.project_permission_query",
+}
+
+has_permission = {
+	"Project": "jk_crm.setup.access.project_has_permission",
+}
+
 scheduler_events = {
 	"daily": [
 		"jk_crm.tasks.daily",

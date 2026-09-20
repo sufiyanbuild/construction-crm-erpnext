@@ -7,6 +7,7 @@ and are run by hand (jk_crm.setup.demo_masters / demo_lifecycle).
 import frappe
 
 from jk_crm.setup import (
+	access,
 	custom_fields,
 	dashboards,
 	notifications,
@@ -28,6 +29,9 @@ SETTING_DEFAULTS = {
 	"send_daily_digest": 1,
 	"followup_idle_days": 7,
 	"retention_fallback_days": 365,
+	"quotation_reminder_days": 3,
+	"bid_reminder_days": 2,
+	"estimation_reminder_days": 1,
 	"notification_channel": "System Notification",
 	"zatca_mode": "Simulation (Demo)",
 }
@@ -48,6 +52,7 @@ def after_install():
 	workflows.execute()
 	notifications.execute()
 	notifications.create_opportunity_type()
+	access.execute()
 	projects.execute()
 	print_formats.execute()
 	reports.execute()

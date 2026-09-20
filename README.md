@@ -1,6 +1,6 @@
 ### JK CRM
 
-ERPNext CRM and Project lifecycle for JK Consultancies BRD QN-2026-0010
+ERPNext CRM and Project lifecycle 
 
 ### Installation
 

@@ -9,7 +9,17 @@
   "scope_cb",
   "notification_channel",
   "commercial_section",
-  "retention_fallback_days"
+  "retention_fallback_days",
+  "capture_section",
+  "capture_leads_from_email",
+  "capture_cb",
+  "capture_leads_from_whatsapp",
+  "followup_section",
+  "followup_idle_days",
+  "digest_cb",
+  "send_daily_digest",
+  "zatca_section",
+  "zatca_mode"
  ],
  "fields": [
   {
@@ -48,6 +58,65 @@
    "fieldname": "retention_fallback_days",
    "fieldtype": "Int",
    "label": "Retention Fallback Period (Days)"
+  },
+  {
+   "fieldname": "capture_section",
+   "fieldtype": "Section Break",
+   "label": "Inbound Lead Capture"
+  },
+  {
+   "fieldname": "capture_leads_from_email",
+   "fieldtype": "Check",
+   "label": "Capture Leads from Email",
+   "default": "1",
+   "description": "Resolve inbound email to an existing Lead/Contact/Customer, creating a Lead when the sender is unknown. Requires an incoming Email Account."
+  },
+  {
+   "fieldname": "capture_cb",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "capture_leads_from_whatsapp",
+   "fieldtype": "Check",
+   "label": "Capture Leads from WhatsApp",
+   "default": "1",
+   "description": "Requires the frappe_whatsapp app and a configured WhatsApp Account. Inert when not installed."
+  },
+  {
+   "fieldname": "followup_section",
+   "fieldtype": "Section Break",
+   "label": "Follow-up & Digest"
+  },
+  {
+   "fieldname": "followup_idle_days",
+   "fieldtype": "Int",
+   "label": "Follow-up Reminder After (Days)",
+   "default": "7",
+   "description": "Open leads and opportunities untouched for this many days are flagged as delayed follow-ups (BRD-06). PENDING CLIENT CONFIRMATION."
+  },
+  {
+   "fieldname": "digest_cb",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "send_daily_digest",
+   "fieldtype": "Check",
+   "label": "Send Daily Pending-Task Digest",
+   "default": "1",
+   "description": "Daily summary of pending approvals, due deadlines and overdue items to JK Management (BRD-06)."
+  },
+  {
+   "fieldname": "zatca_section",
+   "fieldtype": "Section Break",
+   "label": "ZATCA e-Invoicing"
+  },
+  {
+   "fieldname": "zatca_mode",
+   "fieldtype": "Select",
+   "label": "ZATCA Mode",
+   "options": "Disabled\nSimulation (Demo)\nPhase 2 Integration",
+   "default": "Simulation (Demo)",
+   "description": "Simulation generates a locally-built QR for demonstration and is NOT legally compliant. Phase 2 Integration requires the compliance app plus CSID onboarding credentials and is not yet implemented."
   }
  ],
  "index_web_pages_for_search": 1,

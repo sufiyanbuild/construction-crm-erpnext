@@ -45,6 +45,7 @@ LINKS = [
 	("Card Break", "Projects", None, None),
 	("Link", "Project", "DocType", "Project"),
 	("Link", "Task", "DocType", "Task"),
+	("Link", "Project Template", "DocType", "Project Template"),
 	("Link", "Purchase Order", "DocType", "Purchase Order"),
 	("Link", "Delivery Note", "DocType", "Delivery Note"),
 
@@ -53,15 +54,27 @@ LINKS = [
 	("Link", "Payment Entry", "DocType", "Payment Entry"),
 	("Link", "JK Retention Entry", "DocType", "JK Retention Entry"),
 
-	("Card Break", "Reports", None, None),
+	("Card Break", "Sales Reports", None, None),
+	("Link", "JK Lead and Prospect Report", "Report", "JK Lead and Prospect Report"),
 	("Link", "JK Bid and Tender Deadline Report", "Report", "JK Bid and Tender Deadline Report"),
 	("Link", "JK Estimation Workload Report", "Report", "JK Estimation Workload Report"),
-	("Link", "JK Pending Approval Report", "Report", "JK Pending Approval Report"),
-	("Link", "JK Invoice Status Report", "Report", "JK Invoice Status Report"),
-	("Link", "JK Retention Report", "Report", "JK Retention Report"),
+	("Link", "JK Quotation Expiry and Pending Report", "Report", "JK Quotation Expiry and Pending Report"),
 	("Link", "JK Variation Order Report", "Report", "JK Variation Order Report"),
-	("Link", "JK Warranty and Guarantee Report", "Report", "JK Warranty and Guarantee Report"),
+	("Link", "JK Pending Approval Report", "Report", "JK Pending Approval Report"),
+	("Link", "JK Customer 360 Report", "Report", "JK Customer 360 Report"),
+
+	("Card Break", "Project Reports", None, None),
+	("Link", "JK Ongoing Project Report", "Report", "JK Ongoing Project Report"),
+	("Link", "JK Project Progress Report", "Report", "JK Project Progress Report"),
 	("Link", "JK Project Commercial Summary", "Report", "JK Project Commercial Summary"),
+	("Link", "JK Project Procurement Report", "Report", "JK Project Procurement Report"),
+	("Link", "JK Warranty and Guarantee Report", "Report", "JK Warranty and Guarantee Report"),
+
+	("Card Break", "Finance Reports", None, None),
+	("Link", "JK Invoice Status Report", "Report", "JK Invoice Status Report"),
+	("Link", "JK Advance and Progress Billing Report", "Report", "JK Advance and Progress Billing Report"),
+	("Link", "JK Receivables and Overdue Report", "Report", "JK Receivables and Overdue Report"),
+	("Link", "JK Retention Report", "Report", "JK Retention Report"),
 
 	("Card Break", "Configuration", None, None),
 	("Link", "JK CRM Settings", "DocType", "JK CRM Settings"),
@@ -85,7 +98,10 @@ def _content(cards, chart):
 		"id": "jkhead", "type": "header",
 		"data": {"text": "<span class=\"h4\"><b>Documents &amp; Reports</b></span>", "col": 12},
 	})
-	for label in ["Sales & Tendering", "Projects", "Billing & Retention", "Reports", "Configuration"]:
+	for label in [
+		"Sales & Tendering", "Projects", "Billing & Retention",
+		"Sales Reports", "Project Reports", "Finance Reports", "Configuration",
+	]:
 		blocks.append({
 			"id": f"jkc{abs(hash(label)) % 10**6}", "type": "card",
 			"data": {"card_name": label, "col": 4},

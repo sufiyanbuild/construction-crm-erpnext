@@ -16,6 +16,16 @@ CUSTOM_FIELDS = {
 		{"fieldname": "jk_tender_ref_no", "label": "Tender / Bid Reference No", "fieldtype": "Data",
 		 "depends_on": "eval:doc.jk_inquiry_type=='Tender'", "insert_after": "jk_inquiry_cb"},
 		{"fieldname": "jk_requester_name", "label": "Requester Name", "fieldtype": "Data", "insert_after": "jk_tender_ref_no"},
+		# Inbound capture (email / WhatsApp). Set by jk_crm.integrations.
+		{"fieldname": "jk_source_channel", "label": "Captured From", "fieldtype": "Select",
+		 "options": "\nManual\nEmail\nWhatsApp\nWebsite", "insert_after": "jk_requester_name",
+		 "read_only": 1, "in_standard_filter": 1,
+		 "description": "Channel this lead arrived through (BRD-01)."},
+		{"fieldname": "jk_source_reference", "label": "Source Reference", "fieldtype": "Data",
+		 "read_only": 1, "insert_after": "jk_source_channel",
+		 "description": "Email address or phone number the enquiry came from."},
+		{"fieldname": "jk_source_detail", "label": "Source Detail", "fieldtype": "Small Text",
+		 "read_only": 1, "insert_after": "jk_source_reference"},
 	],
 	# BRD-01/03/04/05/21: tender registration, estimation ownership, dual deadlines
 	"Opportunity": [
@@ -118,6 +128,26 @@ CUSTOM_FIELDS = {
 		 "depends_on": "jk_has_warranty", "insert_after": "jk_warranty_cb"},
 		{"fieldname": "jk_warranty_terms", "label": "Warranty Terms", "fieldtype": "Small Text",
 		 "depends_on": "jk_has_warranty", "insert_after": "jk_warranty_end_date"},
+		{"fieldname": "jk_warranty_status", "label": "Warranty Status", "fieldtype": "Select",
+		 "options": "\nNot Applicable\nNot Started\nActive\nExpired", "read_only": 1,
+		 "depends_on": "jk_has_warranty", "insert_after": "jk_warranty_terms",
+		 "in_standard_filter": 1,
+		 "description": "Maintained automatically from the warranty dates (BRD-23)."},
+		# BRD-15: project completion documentation
+		{"fieldname": "jk_completion_section", "label": "Completion Certificate", "fieldtype": "Section Break",
+		 "insert_after": "jk_warranty_status", "collapsible": 1},
+		{"fieldname": "jk_completion_certificate_no", "label": "Completion Certificate No", "fieldtype": "Data",
+		 "read_only": 1, "insert_after": "jk_completion_section",
+		 "description": "Generated when the certificate is issued (BRD-15)."},
+		{"fieldname": "jk_completion_date", "label": "Completion Date", "fieldtype": "Date",
+		 "insert_after": "jk_completion_certificate_no"},
+		{"fieldname": "jk_completion_cb", "fieldtype": "Column Break", "insert_after": "jk_completion_date"},
+		{"fieldname": "jk_certificate_issued_by", "label": "Issued By", "fieldtype": "Link", "options": "User",
+		 "insert_after": "jk_completion_cb"},
+		{"fieldname": "jk_certificate_accepted_by", "label": "Accepted By (Customer)", "fieldtype": "Data",
+		 "insert_after": "jk_certificate_issued_by"},
+		{"fieldname": "jk_completion_notes", "label": "Completion Notes", "fieldtype": "Small Text",
+		 "insert_after": "jk_certificate_accepted_by"},
 	],
 	# BRD-16/17/18/24: billing type, retention, status tracking, ZATCA fields
 	"Sales Invoice": [

@@ -23,12 +23,32 @@ doc_events = {
 	},
 	"Sales Invoice": {
 		"validate": "jk_crm.controllers.sales_invoice_validate",
-		"on_submit": "jk_crm.controllers.sales_invoice_on_submit",
-		"on_cancel": "jk_crm.controllers.sales_invoice_on_cancel",
+		"on_submit": [
+			"jk_crm.controllers.sales_invoice_on_submit",
+			"jk_crm.retention.mark_released_from_invoice",
+		],
+		"on_cancel": [
+			"jk_crm.controllers.sales_invoice_on_cancel",
+			"jk_crm.retention.reopen_released_from_invoice",
+		],
 	},
 	"Payment Entry": {
-		"on_submit": "jk_crm.controllers.payment_entry_on_submit",
-		"on_cancel": "jk_crm.controllers.payment_entry_on_cancel",
+		"on_submit": [
+			"jk_crm.controllers.payment_entry_on_submit",
+			"jk_crm.retention.link_release_payment",
+		],
+		"on_cancel": [
+			"jk_crm.controllers.payment_entry_on_cancel",
+			"jk_crm.retention.link_release_payment",
+		],
+	},
+	# Inbound lead capture (BRD-01). The WhatsApp handler is inert unless
+	# frappe_whatsapp is installed - see jk_crm.integrations.whatsapp_capture.
+	"Communication": {
+		"after_insert": "jk_crm.integrations.email_capture.capture_from_communication",
+	},
+	"WhatsApp Message": {
+		"after_insert": "jk_crm.integrations.whatsapp_capture.capture_from_whatsapp_message",
 	},
 }
 

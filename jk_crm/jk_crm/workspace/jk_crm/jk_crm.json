@@ -6,8 +6,8 @@
    "label": "JK Invoice Status Mix"
   }
  ],
- "content": "[{\"id\": \"jkspacer\", \"type\": \"spacer\", \"data\": {\"col\": 12}}, {\"id\": \"jkcard0\", \"type\": \"number_card\", \"data\": {\"number_card_name\": \"Open Tenders\", \"col\": 4}}, {\"id\": \"jkcard1\", \"type\": \"number_card\", \"data\": {\"number_card_name\": \"Estimations Pending\", \"col\": 4}}, {\"id\": \"jkcard2\", \"type\": \"number_card\", \"data\": {\"number_card_name\": \"Quotations Awaiting Approval\", \"col\": 4}}, {\"id\": \"jkcard3\", \"type\": \"number_card\", \"data\": {\"number_card_name\": \"Ongoing Projects\", \"col\": 4}}, {\"id\": \"jkcard4\", \"type\": \"number_card\", \"data\": {\"number_card_name\": \"Overdue Invoices\", \"col\": 4}}, {\"id\": \"jkcard5\", \"type\": \"number_card\", \"data\": {\"number_card_name\": \"Total Receivable\", \"col\": 4}}, {\"id\": \"jkchart\", \"type\": \"chart\", \"data\": {\"chart_name\": \"JK Invoice Status Mix\", \"col\": 12}}, {\"id\": \"jkhead\", \"type\": \"header\", \"data\": {\"text\": \"<span class=\\\"h4\\\"><b>Documents &amp; Reports</b></span>\", \"col\": 12}}, {\"id\": \"jkc982348\", \"type\": \"card\", \"data\": {\"card_name\": \"Sales & Tendering\", \"col\": 4}}, {\"id\": \"jkc846414\", \"type\": \"card\", \"data\": {\"card_name\": \"Projects\", \"col\": 4}}, {\"id\": \"jkc741907\", \"type\": \"card\", \"data\": {\"card_name\": \"Billing & Retention\", \"col\": 4}}, {\"id\": \"jkc433516\", \"type\": \"card\", \"data\": {\"card_name\": \"Reports\", \"col\": 4}}, {\"id\": \"jkc282304\", \"type\": \"card\", \"data\": {\"card_name\": \"Configuration\", \"col\": 4}}]",
- "creation": "2026-09-16 12:18:01.572102",
+ "content": "[{\"id\": \"jkspacer\", \"type\": \"spacer\", \"data\": {\"col\": 12}}, {\"id\": \"jkcard0\", \"type\": \"number_card\", \"data\": {\"number_card_name\": \"Open Tenders\", \"col\": 4}}, {\"id\": \"jkcard1\", \"type\": \"number_card\", \"data\": {\"number_card_name\": \"Estimations Pending\", \"col\": 4}}, {\"id\": \"jkcard2\", \"type\": \"number_card\", \"data\": {\"number_card_name\": \"Quotations Awaiting Approval\", \"col\": 4}}, {\"id\": \"jkcard3\", \"type\": \"number_card\", \"data\": {\"number_card_name\": \"Ongoing Projects\", \"col\": 4}}, {\"id\": \"jkcard4\", \"type\": \"number_card\", \"data\": {\"number_card_name\": \"Overdue Invoices\", \"col\": 4}}, {\"id\": \"jkcard5\", \"type\": \"number_card\", \"data\": {\"number_card_name\": \"Total Receivable\", \"col\": 4}}, {\"id\": \"jkchart\", \"type\": \"chart\", \"data\": {\"chart_name\": \"JK Invoice Status Mix\", \"col\": 12}}, {\"id\": \"jkhead\", \"type\": \"header\", \"data\": {\"text\": \"<span class=\\\"h4\\\"><b>Documents &amp; Reports</b></span>\", \"col\": 12}}, {\"id\": \"jkc564226\", \"type\": \"card\", \"data\": {\"card_name\": \"Sales & Tendering\", \"col\": 4}}, {\"id\": \"jkc686031\", \"type\": \"card\", \"data\": {\"card_name\": \"Projects\", \"col\": 4}}, {\"id\": \"jkc371895\", \"type\": \"card\", \"data\": {\"card_name\": \"Billing & Retention\", \"col\": 4}}, {\"id\": \"jkc254729\", \"type\": \"card\", \"data\": {\"card_name\": \"Sales Reports\", \"col\": 4}}, {\"id\": \"jkc105046\", \"type\": \"card\", \"data\": {\"card_name\": \"Project Reports\", \"col\": 4}}, {\"id\": \"jkc871522\", \"type\": \"card\", \"data\": {\"card_name\": \"Finance Reports\", \"col\": 4}}, {\"id\": \"jkc707813\", \"type\": \"card\", \"data\": {\"card_name\": \"Configuration\", \"col\": 4}}]",
+ "creation": "2026-09-20 11:24:22.286828",
  "custom_blocks": [],
  "docstatus": 0,
  "doctype": "Workspace",
@@ -100,6 +100,16 @@
   {
    "hidden": 0,
    "is_query_report": 0,
+   "label": "Project Template",
+   "link_count": 0,
+   "link_to": "Project Template",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
    "label": "Purchase Order",
    "link_count": 0,
    "link_to": "Purchase Order",
@@ -159,11 +169,21 @@
   {
    "hidden": 0,
    "is_query_report": 0,
-   "label": "Reports",
+   "label": "Sales Reports",
    "link_count": 0,
    "link_type": "DocType",
    "onboard": 0,
    "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "JK Lead and Prospect Report",
+   "link_count": 0,
+   "link_to": "JK Lead and Prospect Report",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link"
   },
   {
    "hidden": 0,
@@ -188,29 +208,9 @@
   {
    "hidden": 0,
    "is_query_report": 1,
-   "label": "JK Pending Approval Report",
+   "label": "JK Quotation Expiry and Pending Report",
    "link_count": 0,
-   "link_to": "JK Pending Approval Report",
-   "link_type": "Report",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 1,
-   "label": "JK Invoice Status Report",
-   "link_count": 0,
-   "link_to": "JK Invoice Status Report",
-   "link_type": "Report",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 1,
-   "label": "JK Retention Report",
-   "link_count": 0,
-   "link_to": "JK Retention Report",
+   "link_to": "JK Quotation Expiry and Pending Report",
    "link_type": "Report",
    "onboard": 0,
    "type": "Link"
@@ -228,9 +228,48 @@
   {
    "hidden": 0,
    "is_query_report": 1,
-   "label": "JK Warranty and Guarantee Report",
+   "label": "JK Pending Approval Report",
    "link_count": 0,
-   "link_to": "JK Warranty and Guarantee Report",
+   "link_to": "JK Pending Approval Report",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "JK Customer 360 Report",
+   "link_count": 0,
+   "link_to": "JK Customer 360 Report",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Project Reports",
+   "link_count": 0,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "JK Ongoing Project Report",
+   "link_count": 0,
+   "link_to": "JK Ongoing Project Report",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "JK Project Progress Report",
+   "link_count": 0,
+   "link_to": "JK Project Progress Report",
    "link_type": "Report",
    "onboard": 0,
    "type": "Link"
@@ -241,6 +280,75 @@
    "label": "JK Project Commercial Summary",
    "link_count": 0,
    "link_to": "JK Project Commercial Summary",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "JK Project Procurement Report",
+   "link_count": 0,
+   "link_to": "JK Project Procurement Report",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "JK Warranty and Guarantee Report",
+   "link_count": 0,
+   "link_to": "JK Warranty and Guarantee Report",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Finance Reports",
+   "link_count": 0,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "JK Invoice Status Report",
+   "link_count": 0,
+   "link_to": "JK Invoice Status Report",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "JK Advance and Progress Billing Report",
+   "link_count": 0,
+   "link_to": "JK Advance and Progress Billing Report",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "JK Receivables and Overdue Report",
+   "link_count": 0,
+   "link_to": "JK Receivables and Overdue Report",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "JK Retention Report",
+   "link_count": 0,
+   "link_to": "JK Retention Report",
    "link_type": "Report",
    "onboard": 0,
    "type": "Link"
@@ -265,7 +373,7 @@
    "type": "Link"
   }
  ],
- "modified": "2026-09-16 12:18:01.572102",
+ "modified": "2026-09-20 11:24:22.286828",
  "modified_by": "Administrator",
  "module": "JK CRM",
  "name": "JK CRM",

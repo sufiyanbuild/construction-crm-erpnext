@@ -15,6 +15,21 @@ SETTINGS = "JK CRM Settings"
 DEFAULT_RETENTION_FALLBACK_DAYS = 365
 
 
+def get_setting(fieldname, default=None):
+	"""Read one JK CRM Settings value, falling back to a real default.
+
+	A Single that has never been saved has no row in `tabSingles`, and an unset
+	Check field reads back as 0 rather than None - indistinguishable from a
+	deliberate "off". Going to the Singles table directly lets us tell "not
+	configured" from "switched off".
+	"""
+	try:
+		stored = frappe.db.get_single_value(SETTINGS, fieldname)
+	except Exception:
+		return default
+	return default if stored is None else stored
+
+
 def get_settings():
 	"""The JK CRM Settings single, or None if the doctype is not yet migrated."""
 	try:
@@ -75,10 +90,8 @@ def has_outgoing_email():
 
 def get_retention_fallback_days():
 	"""Fallback retention period in days (BRD-18)."""
-	settings = get_settings()
-	if settings and settings.get("retention_fallback_days"):
-		return int(settings.retention_fallback_days)
-	return DEFAULT_RETENTION_FALLBACK_DAYS
+	value = get_setting("retention_fallback_days")
+	return int(value) if value else DEFAULT_RETENTION_FALLBACK_DAYS
 
 
 def company_filter(doctype):

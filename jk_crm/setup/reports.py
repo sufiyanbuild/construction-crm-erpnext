@@ -182,6 +182,185 @@ WHERE IFNULL(p.jk_project_code, '') != '' AND p.company = %(company)s
 ORDER BY p.creation DESC
 """,
 	},
+	{
+		"name": "JK Lead and Prospect Report",
+		"ref_doctype": "Lead",
+		"add_total_row": 0,
+		"roles": ["JK Sales User", "JK Management", "System Manager"],
+		"query": """
+SELECT l.name                AS "Lead:Link/Lead:140",
+       l.lead_name           AS "Lead Name:Data:180",
+       l.company_name        AS "Organisation:Data:180",
+       l.jk_inquiry_type     AS "Inquiry Type:Data:120",
+       l.jk_source_channel   AS "Captured From:Data:110",
+       l.jk_received_date    AS "Date Received:Date:110",
+       l.jk_tender_ref_no    AS "Tender Ref:Data:130",
+       l.lead_owner          AS "Representative:Link/User:170",
+       l.status              AS "Status:Data:100",
+       DATEDIFF(CURDATE(), DATE(l.modified)) AS "Days Since Activity:Int:150"
+FROM `tabLead` l
+WHERE IFNULL(l.company, %(company)s) = %(company)s
+ORDER BY l.creation DESC
+""",
+	},
+	{
+		"name": "JK Quotation Expiry and Pending Report",
+		"ref_doctype": "Quotation",
+		"add_total_row": 1,
+		"roles": ["JK Sales User", "JK Management", "System Manager"],
+		"query": """
+SELECT q.name              AS "Quotation:Link/Quotation:160",
+       q.party_name        AS "Customer:Data:180",
+       q.transaction_date  AS "Posting Date:Date:100",
+       q.valid_till        AS "Valid Till:Date:100",
+       DATEDIFF(q.valid_till, CURDATE()) AS "Days To Expiry:Int:120",
+       q.grand_total       AS "Amount:Currency:140",
+       q.workflow_state    AS "Approval:Data:110",
+       q.status            AS "Status:Data:110"
+FROM `tabQuotation` q
+WHERE q.company = %(company)s
+  AND q.docstatus < 2
+  AND IFNULL(q.status, '') NOT IN ('Ordered', 'Lost')
+ORDER BY q.valid_till IS NULL, q.valid_till ASC
+""",
+	},
+	{
+		"name": "JK Ongoing Project Report",
+		"ref_doctype": "Project",
+		"add_total_row": 0,
+		"roles": ["JK Project Manager", "JK Site Supervisor", "JK Management", "JK Sales User", "System Manager"],
+		"query": """
+SELECT p.name                 AS "Project:Link/Project:150",
+       p.jk_project_code      AS "Code:Data:110",
+       p.project_name         AS "Project Name:Data:200",
+       p.customer             AS "Customer:Link/Customer:170",
+       p.jk_project_manager   AS "Project Manager:Link/User:160",
+       p.jk_site_supervisor   AS "Site Supervisor:Link/User:160",
+       p.jk_handover_status   AS "Handover:Data:130",
+       p.status               AS "Status:Data:90",
+       p.percent_complete     AS "Complete %%:Percent:100",
+       p.expected_end_date    AS "Expected End:Date:110",
+       DATEDIFF(p.expected_end_date, CURDATE()) AS "Days Remaining:Int:120"
+FROM `tabProject` p
+WHERE p.company = %(company)s AND p.status = 'Open'
+ORDER BY p.expected_end_date IS NULL, p.expected_end_date ASC
+""",
+	},
+	{
+		"name": "JK Project Progress Report",
+		"ref_doctype": "Project",
+		"add_total_row": 0,
+		"roles": ["JK Project Manager", "JK Site Supervisor", "JK Management", "System Manager"],
+		"query": """
+SELECT p.name                       AS "Project:Link/Project:150",
+       p.jk_project_code            AS "Code:Data:100",
+       p.project_name               AS "Project Name:Data:190",
+       p.percent_complete_method    AS "Progress Method:Data:130",
+       p.percent_complete           AS "Complete %%:Percent:100",
+       COUNT(t.name)                AS "Total Tasks:Int:100",
+       SUM(CASE WHEN t.status = 'Completed' THEN 1 ELSE 0 END) AS "Completed:Int:100",
+       SUM(CASE WHEN t.status = 'Overdue' THEN 1 ELSE 0 END)   AS "Overdue Tasks:Int:120",
+       SUM(CASE WHEN t.status IN ('Open','Working','Pending Review') THEN 1 ELSE 0 END) AS "Open Tasks:Int:100",
+       p.jk_project_manager         AS "Project Manager:Link/User:160"
+FROM `tabProject` p
+LEFT JOIN `tabTask` t ON t.project = p.name
+WHERE p.company = %(company)s AND p.status IN ('Open', 'Completed')
+GROUP BY p.name
+ORDER BY p.percent_complete ASC
+""",
+	},
+	{
+		"name": "JK Advance and Progress Billing Report",
+		"ref_doctype": "Sales Invoice",
+		"add_total_row": 1,
+		"roles": ["JK Finance User", "JK Management", "JK Project Manager", "System Manager"],
+		"query": """
+SELECT si.project            AS "Project:Link/Project:150",
+       p.jk_project_code     AS "Code:Data:100",
+       si.name               AS "Invoice:Link/Sales Invoice:160",
+       si.posting_date       AS "Posting Date:Date:100",
+       si.jk_billing_type    AS "Billing Type:Data:120",
+       si.jk_progress_percentage AS "Progress %%:Percent:100",
+       si.grand_total        AS "Invoice Amount:Currency:140",
+       si.jk_retention_amount AS "Retention Withheld:Currency:150",
+       si.outstanding_amount AS "Outstanding:Currency:130",
+       si.jk_invoice_status  AS "Status:Data:110"
+FROM `tabSales Invoice` si
+LEFT JOIN `tabProject` p ON p.name = si.project
+WHERE si.company = %(company)s AND si.docstatus = 1
+  AND si.jk_billing_type IN ('Advance', 'Progress', 'Final', 'Retention Release')
+ORDER BY si.project, si.posting_date
+""",
+	},
+	{
+		"name": "JK Project Procurement Report",
+		"ref_doctype": "Purchase Order",
+		"add_total_row": 1,
+		"roles": ["JK Procurement User", "JK Project Manager", "JK Management", "System Manager"],
+		"query": """
+SELECT po.jk_project              AS "Project:Link/Project:150",
+       p.jk_project_code          AS "Code:Data:100",
+       po.name                    AS "Purchase Order:Link/Purchase Order:160",
+       po.supplier                AS "Supplier:Link/Supplier:180",
+       po.transaction_date        AS "Posting Date:Date:100",
+       po.jk_procurement_category AS "Category:Data:130",
+       po.grand_total             AS "Order Value:Currency:140",
+       po.status                  AS "Status:Data:110"
+FROM `tabPurchase Order` po
+LEFT JOIN `tabProject` p ON p.name = po.jk_project
+WHERE po.company = %(company)s AND po.docstatus = 1
+ORDER BY po.transaction_date DESC
+""",
+	},
+	{
+		"name": "JK Receivables and Overdue Report",
+		"ref_doctype": "Sales Invoice",
+		"add_total_row": 1,
+		"roles": ["JK Finance User", "JK Management", "System Manager"],
+		"query": """
+SELECT si.customer            AS "Customer:Link/Customer:190",
+       si.name                AS "Invoice:Link/Sales Invoice:160",
+       si.project             AS "Project:Link/Project:140",
+       si.posting_date        AS "Posting Date:Date:100",
+       si.due_date            AS "Due Date:Date:100",
+       DATEDIFF(CURDATE(), si.due_date) AS "Days Overdue:Int:110",
+       si.grand_total         AS "Invoice Amount:Currency:140",
+       si.outstanding_amount  AS "Outstanding:Currency:140",
+       si.jk_invoice_status   AS "Status:Data:110"
+FROM `tabSales Invoice` si
+WHERE si.company = %(company)s AND si.docstatus = 1 AND si.outstanding_amount > 0
+ORDER BY si.due_date ASC
+""",
+	},
+	{
+		"name": "JK Customer 360 Report",
+		"ref_doctype": "Customer",
+		"add_total_row": 1,
+		"roles": ["JK Sales User", "JK Management", "JK Finance User", "System Manager"],
+		"query": """
+SELECT c.name AS "Customer:Link/Customer:200",
+       (SELECT COUNT(*) FROM `tabOpportunity` o
+         WHERE o.party_name = c.name AND o.company = %(company)s) AS "Opportunities:Int:120",
+       (SELECT COUNT(*) FROM `tabQuotation` q
+         WHERE q.party_name = c.name AND q.company = %(company)s AND q.docstatus = 1) AS "Quotations:Int:110",
+       (SELECT COUNT(*) FROM `tabSales Order` so
+         WHERE so.customer = c.name AND so.company = %(company)s AND so.docstatus = 1) AS "Orders:Int:90",
+       (SELECT COUNT(*) FROM `tabProject` p
+         WHERE p.customer = c.name AND p.company = %(company)s) AS "Projects:Int:90",
+       (SELECT IFNULL(SUM(si.grand_total),0) FROM `tabSales Invoice` si
+         WHERE si.customer = c.name AND si.company = %(company)s AND si.docstatus = 1) AS "Invoiced:Currency:140",
+       (SELECT IFNULL(SUM(si.outstanding_amount),0) FROM `tabSales Invoice` si
+         WHERE si.customer = c.name AND si.company = %(company)s AND si.docstatus = 1) AS "Outstanding:Currency:140",
+       (SELECT IFNULL(SUM(r.retention_amount),0) FROM `tabJK Retention Entry` r
+         WHERE r.customer = c.name AND r.docstatus = 1 AND r.status <> 'Released') AS "Retention Held:Currency:140",
+       c.jk_cr_number AS "CR Number:Data:120"
+FROM `tabCustomer` c
+WHERE EXISTS (SELECT 1 FROM `tabSales Invoice` si WHERE si.customer = c.name AND si.company = %(company)s)
+   OR EXISTS (SELECT 1 FROM `tabProject` p WHERE p.customer = c.name AND p.company = %(company)s)
+   OR EXISTS (SELECT 1 FROM `tabOpportunity` o WHERE o.party_name = c.name AND o.company = %(company)s)
+ORDER BY 7 DESC
+""",
+	},
 ]
 
 

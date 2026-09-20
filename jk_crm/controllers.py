@@ -84,15 +84,73 @@ def project_validate(doc, method=None):
 			frappe.throw(_("Handover cannot be accepted while checklist items are open: {0}")
 				.format(", ".join(pending)))
 
-	# BRD-23
-	if doc.get("jk_has_warranty") and doc.get("jk_warranty_start_date") and doc.get("jk_warranty_period_months"):
-		doc.jk_warranty_end_date = add_months(
-			getdate(doc.jk_warranty_start_date), int(doc.jk_warranty_period_months)
-		)
+	# BRD-23 warranty
+	_apply_warranty(doc)
+
+	# BRD-15 completion certificate
+	_apply_completion(doc)
 
 	# BRD-32: PO closure follows project completion, never precedes it.
 	if doc.get("jk_customer_po_status") == "Closed" and doc.status != "Completed":
 		frappe.throw(_("The customer Purchase Order can only be closed once the Project is Completed (BRD-32)."))
+
+
+def _apply_warranty(doc):
+	"""BRD-23: warranty dates, defaulting and status.
+
+	The BRD ties warranty to project completion, so when the warranty is
+	applicable but no start date has been entered we take it from the handover
+	or completion date rather than leaving the field blank and the end date
+	uncomputable.
+	"""
+	if not doc.get("jk_has_warranty"):
+		doc.jk_warranty_end_date = None
+		doc.jk_warranty_status = "Not Applicable"
+		return
+
+	if not doc.get("jk_warranty_start_date"):
+		# Completion first, then handover acceptance - both mark the point the
+		# customer takes the asset on.
+		fallback = doc.get("jk_completion_date") or doc.get("jk_handover_date")
+		if fallback:
+			doc.jk_warranty_start_date = fallback
+
+	if not doc.get("jk_warranty_period_months"):
+		frappe.throw(
+			_("Warranty Period (Months) is required when a warranty applies (BRD-23).")
+		)
+
+	if not doc.get("jk_warranty_start_date"):
+		frappe.throw(
+			_("Warranty Start Date is required when a warranty applies. It defaults from "
+			  "the Completion Date or Handover Date once either is set (BRD-23).")
+		)
+
+	doc.jk_warranty_end_date = add_months(
+		getdate(doc.jk_warranty_start_date), int(doc.jk_warranty_period_months)
+	)
+
+	today = getdate(nowdate())
+	if getdate(doc.jk_warranty_start_date) > today:
+		doc.jk_warranty_status = "Not Started"
+	elif getdate(doc.jk_warranty_end_date) < today:
+		doc.jk_warranty_status = "Expired"
+	else:
+		doc.jk_warranty_status = "Active"
+
+
+def _apply_completion(doc):
+	"""BRD-15: issue a completion certificate number once the project completes."""
+	if doc.get("status") != "Completed":
+		return
+
+	if not doc.get("jk_completion_date"):
+		doc.jk_completion_date = nowdate()
+
+	if not doc.get("jk_completion_certificate_no"):
+		doc.jk_completion_certificate_no = frappe.model.naming.make_autoname(
+			"JK-CC-.YYYY.-.####"
+		)
 
 
 # --------------------------------------------------------------- Sales Invoice

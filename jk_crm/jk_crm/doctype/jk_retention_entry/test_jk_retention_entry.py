@@ -31,9 +31,9 @@ class TestJKRetentionEntry(unittest.TestCase):
 		# fabricating a company, chart of accounts and customer just to insert a
 		# row, reuse whatever the site already has and skip cleanly when a bare
 		# site has none - the schema tests below still run everywhere.
-		cls.company = frappe.db.get_value("Company", {}, "name")
-		cls.project = frappe.db.get_value("Project", {}, "name")
-		cls.customer = frappe.db.get_value("Customer", {}, "name")
+		from jk_crm.tests._helpers import consistent_party
+
+		cls.company, cls.customer, cls.project = consistent_party()
 		cls.has_masters = bool(cls.company and cls.project and cls.customer)
 
 	def tearDown(self):

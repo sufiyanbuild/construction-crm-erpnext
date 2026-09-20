@@ -17,9 +17,11 @@ MARK = "jk_crm release test"
 class TestRetentionRelease(unittest.TestCase):
 	@classmethod
 	def setUpClass(cls):
-		cls.company = frappe.db.get_value("Company", {}, "name")
-		cls.project = frappe.db.get_value("Project", {}, "name")
-		cls.customer = frappe.db.get_value("Customer", {}, "name")
+		# Must be a consistent set: an arbitrary company paired with an
+		# arbitrary customer can differ in currency, which ERPNext rejects.
+		from jk_crm.tests._helpers import consistent_party
+
+		cls.company, cls.customer, cls.project = consistent_party()
 		cls.ready = bool(cls.company and cls.project and cls.customer)
 
 	def tearDown(self):

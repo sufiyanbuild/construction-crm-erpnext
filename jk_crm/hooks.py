@@ -1,7 +1,7 @@
 app_name = "jk_crm"
 app_title = "JK CRM"
 app_publisher = "JK Consultancies"
-app_description = "ERPNext CRM and Project lifecycle for JK Consultancies BRD QN-2026-0010"
+app_description = "Construction CRM and project lifecycle for ERPNext"
 app_email = "hello@jkconsultations.sa"
 app_license = "mit"
 

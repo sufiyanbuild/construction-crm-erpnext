@@ -41,17 +41,17 @@ class TestLeadCapture(unittest.TestCase):
 	"""find_or_create_lead must never create a second Lead for a known sender."""
 
 	def setUp(self):
+		from jk_crm.tests._helpers import purge_capture_test_records
+
+		# Start from a known-clean slate: a Contact left by an earlier run would
+		# be resolved instead of a Lead being created.
+		purge_capture_test_records()
 		self.created = []
 
 	def tearDown(self):
-		for name in frappe.get_all(
-			"Lead", filters={"jk_source_reference": ["like", "%captest%"]}, pluck="name"
-		):
-			frappe.delete_doc("Lead", name, force=1, ignore_permissions=True)
-		for name in self.created:
-			if frappe.db.exists("Lead", name):
-				frappe.delete_doc("Lead", name, force=1, ignore_permissions=True)
-		frappe.db.commit()
+		from jk_crm.tests._helpers import purge_capture_test_records
+
+		purge_capture_test_records()
 
 	def test_unknown_email_creates_lead(self):
 		doctype, name, created = find_or_create_lead(

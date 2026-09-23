@@ -45,8 +45,10 @@ class TestSalesRepresentative(unittest.TestCase):
 			opportunity_validate(opp)
 			self.assertEqual(opp.jk_sales_representative, "Administrator")
 		finally:
-			frappe.delete_doc("Lead", lead.name, force=1, ignore_permissions=True)
-			frappe.db.commit()
+			from jk_crm.tests._helpers import purge_capture_test_records
+
+			# Deleting the Lead is not enough - ERPNext spawns a Contact from it.
+			purge_capture_test_records()
 
 	def test_representative_is_not_mandatory(self):
 		"""Whether it must be set is an open client decision - do not enforce."""

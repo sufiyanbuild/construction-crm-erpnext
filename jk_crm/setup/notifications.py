@@ -1,8 +1,12 @@
 import frappe
 
+from jk_crm.utils import get_notification_channel, get_setting, has_outgoing_email
+
 # BRD-06: deadline alerts, pending approvals, expiring quotations, follow-ups.
-# Channel is System Notification so the demo site needs no SMTP configuration;
-# switching to Email on the client server is a one-field change.
+# The channel is read from JK CRM Settings at build time rather than hardcoded,
+# so a client server with SMTP configured gets Email without a code change. When
+# Email is requested but no outgoing account exists we fall back rather than
+# queueing mail that can never leave the server.
 
 NOTIFICATIONS = [
 	{
@@ -11,7 +15,8 @@ NOTIFICATIONS = [
 		"document_type": "Opportunity",
 		"event": "Days Before",
 		"date_changed": "jk_customer_bid_deadline",
-		"days_in_advance": 2,
+		"days_in_advance": None,  # from settings: bid_reminder_days
+		"setting": "bid_reminder_days",
 		"condition": "doc.jk_is_tender",
 		"message": "Tender **{{ doc.jk_tender_ref_no or doc.name }}** for {{ doc.party_name }} "
 				   "must be submitted by {{ doc.jk_customer_bid_deadline }}.",
@@ -24,7 +29,8 @@ NOTIFICATIONS = [
 		"document_type": "Opportunity",
 		"event": "Days Before",
 		"date_changed": "jk_internal_estimation_deadline",
-		"days_in_advance": 1,
+		"days_in_advance": None,  # from settings: estimation_reminder_days
+		"setting": "estimation_reminder_days",
 		"condition": "doc.jk_estimation_status != 'Completed'",
 		"message": "The internal estimate for **{{ doc.name }}** is due {{ doc.jk_internal_estimation_deadline }} "
 				   "and is still {{ doc.jk_estimation_status }}.",
@@ -36,7 +42,8 @@ NOTIFICATIONS = [
 		"document_type": "Quotation",
 		"event": "Days Before",
 		"date_changed": "valid_till",
-		"days_in_advance": 3,
+		"days_in_advance": None,  # from settings: quotation_reminder_days
+		"setting": "quotation_reminder_days",
 		"condition": "doc.docstatus == 1 and doc.status not in ('Ordered', 'Lost')",
 		"message": "Quotation **{{ doc.name }}** for {{ doc.party_name }} expires on {{ doc.valid_till }}. "
 				   "Follow up or request an extension.",
@@ -90,7 +97,26 @@ NOTIFICATIONS = [
 ]
 
 
+DEFAULT_DAYS = {"bid_reminder_days": 2, "estimation_reminder_days": 1, "quotation_reminder_days": 3}
+
+
+def _days_in_advance(spec):
+	"""Reminder lead time: from settings where the BRD calls it configurable."""
+	key = spec.get("setting")
+	if not key:
+		return spec.get("days_in_advance")
+	return int(get_setting(key, default=DEFAULT_DAYS[key]) or DEFAULT_DAYS[key])
+
+
 def execute():
+	channel = get_notification_channel()
+	if channel == "Email":
+		print("Notification channel: Email (default outgoing account found).")
+	elif has_outgoing_email():
+		print("Notification channel: System Notification (Email available but not selected).")
+	else:
+		print("Notification channel: System Notification (no outgoing Email Account on this site).")
+
 	for spec in NOTIFICATIONS:
 		if frappe.db.exists("Notification", spec["name"]):
 			print(f"SKIP notification (exists): {spec['name']}")
@@ -101,21 +127,45 @@ def execute():
 			"subject": spec["subject"],
 			"document_type": spec["document_type"],
 			"event": spec["event"],
-			"channel": "System Notification",
+			"channel": channel,
 			"enabled": 1,
 			"is_standard": 0,
 			"send_system_notification": 1,
 			"message": spec["message"],
 			"condition": spec.get("condition"),
 			"date_changed": spec.get("date_changed"),
-			"days_in_advance": spec.get("days_in_advance"),
+			"days_in_advance": _days_in_advance(spec),
 			"value_changed": spec.get("value_changed"),
 			"recipients": spec["recipients"],
 		})
 		doc.insert(ignore_permissions=True)
 		print(f"CREATED notification: {spec['name']}")
 	frappe.db.commit()
+	sync_schedules()
 	print(f"Notifications complete: {len(NOTIFICATIONS)}.")
+
+
+def sync_schedules():
+	"""Push the configured reminder lead times onto existing notifications.
+
+	execute() deliberately skips notifications that already exist so a client's
+	own edits are not clobbered, but the reminder schedule is explicitly
+	configurable per the BRD, so that one field is kept in step.
+	"""
+	changed = []
+	for spec in NOTIFICATIONS:
+		if not spec.get("setting") or not frappe.db.exists("Notification", spec["name"]):
+			continue
+		wanted = _days_in_advance(spec)
+		current = frappe.db.get_value("Notification", spec["name"], "days_in_advance")
+		if current != wanted:
+			frappe.db.set_value("Notification", spec["name"], "days_in_advance", wanted)
+			changed.append(f"{spec['name']}: {current} -> {wanted}")
+	frappe.db.commit()
+	for line in changed:
+		print(f"  schedule updated {line}")
+	print(f"Reminder schedules in sync ({len(changed)} changed).")
+	return changed
 
 
 def create_opportunity_type():

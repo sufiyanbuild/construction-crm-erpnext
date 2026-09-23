@@ -1,0 +1,192 @@
+{
+ "actions": [],
+ "creation": "2026-09-16 09:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "scope_section",
+  "default_company",
+  "scope_cb",
+  "notification_channel",
+  "commercial_section",
+  "retention_fallback_days",
+  "capture_section",
+  "capture_leads_from_email",
+  "capture_cb",
+  "capture_leads_from_whatsapp",
+  "followup_section",
+  "followup_idle_days",
+  "digest_cb",
+  "send_daily_digest",
+  "zatca_section",
+  "zatca_mode",
+  "access_section",
+  "restrict_projects_to_assigned_users",
+  "access_cb",
+  "quotation_reminder_days",
+  "bid_reminder_days",
+  "estimation_reminder_days"
+ ],
+ "fields": [
+  {
+   "fieldname": "scope_section",
+   "fieldtype": "Section Break",
+   "label": "Scope"
+  },
+  {
+   "description": "Company used by the JK CRM reports, number cards and dashboard charts. Set this once per site; nothing in the app hardcodes a company.",
+   "fieldname": "default_company",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Default Company",
+   "options": "Company"
+  },
+  {
+   "fieldname": "scope_cb",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "System Notification",
+   "description": "Delivery channel for the JK notifications. Email requires a default outgoing Email Account; the app falls back to System Notification when none exists.",
+   "fieldname": "notification_channel",
+   "fieldtype": "Select",
+   "label": "Notification Channel",
+   "options": "System Notification\nEmail"
+  },
+  {
+   "fieldname": "commercial_section",
+   "fieldtype": "Section Break",
+   "label": "Commercial Defaults"
+  },
+  {
+   "default": "365",
+   "description": "Fallback retention period used only when the Sales Order carries no retention period. PENDING CLIENT CONFIRMATION - see BRD-18.",
+   "fieldname": "retention_fallback_days",
+   "fieldtype": "Int",
+   "label": "Retention Fallback Period (Days)"
+  },
+  {
+   "fieldname": "capture_section",
+   "fieldtype": "Section Break",
+   "label": "Inbound Lead Capture"
+  },
+  {
+   "fieldname": "capture_leads_from_email",
+   "fieldtype": "Check",
+   "label": "Capture Leads from Email",
+   "default": "1",
+   "description": "Resolve inbound email to an existing Lead/Contact/Customer, creating a Lead when the sender is unknown. Requires an incoming Email Account."
+  },
+  {
+   "fieldname": "capture_cb",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "capture_leads_from_whatsapp",
+   "fieldtype": "Check",
+   "label": "Capture Leads from WhatsApp",
+   "default": "1",
+   "description": "Requires the frappe_whatsapp app and a configured WhatsApp Account. Inert when not installed."
+  },
+  {
+   "fieldname": "followup_section",
+   "fieldtype": "Section Break",
+   "label": "Follow-up & Digest"
+  },
+  {
+   "fieldname": "followup_idle_days",
+   "fieldtype": "Int",
+   "label": "Follow-up Reminder After (Days)",
+   "default": "7",
+   "description": "Open leads and opportunities untouched for this many days are flagged as delayed follow-ups (BRD-06). PENDING CLIENT CONFIRMATION."
+  },
+  {
+   "fieldname": "digest_cb",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "send_daily_digest",
+   "fieldtype": "Check",
+   "label": "Send Daily Pending-Task Digest",
+   "default": "1",
+   "description": "Daily summary of pending approvals, due deadlines and overdue items to JK Management (BRD-06)."
+  },
+  {
+   "fieldname": "zatca_section",
+   "fieldtype": "Section Break",
+   "label": "ZATCA e-Invoicing"
+  },
+  {
+   "fieldname": "zatca_mode",
+   "fieldtype": "Select",
+   "label": "ZATCA Mode",
+   "options": "Disabled\nSimulation (Demo)\nPhase 2 Integration",
+   "default": "Simulation (Demo)",
+   "description": "Simulation generates a locally-built QR for demonstration and is NOT legally compliant. Phase 2 Integration requires the compliance app plus CSID onboarding credentials and is not yet implemented."
+  },
+  {
+   "fieldname": "access_section",
+   "fieldtype": "Section Break",
+   "label": "Access Control"
+  },
+  {
+   "fieldname": "restrict_projects_to_assigned_users",
+   "fieldtype": "Check",
+   "default": "0",
+   "label": "Restrict Projects to Assigned Users",
+   "description": "BRD-29: limits Project Managers and Site Supervisors to projects where they are named. OFF by default - PENDING CLIENT CONFIRMATION of departmental/project visibility rules. Management, Finance and Sales are never restricted."
+  },
+  {
+   "fieldname": "access_cb",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "quotation_reminder_days",
+   "fieldtype": "Int",
+   "default": "3",
+   "label": "Quotation Expiry Reminder (Days Before)",
+   "description": "BRD-33 and BRD open point: the reminder schedule is configurable rather than fixed. PENDING CLIENT CONFIRMATION."
+  },
+  {
+   "fieldname": "bid_reminder_days",
+   "fieldtype": "Int",
+   "default": "2",
+   "label": "Bid Deadline Reminder (Days Before)",
+   "description": "BRD open point: exact estimation SLA / reminder schedule. PENDING CLIENT CONFIRMATION."
+  },
+  {
+   "fieldname": "estimation_reminder_days",
+   "fieldtype": "Int",
+   "default": "1",
+   "label": "Estimation Deadline Reminder (Days Before)",
+   "description": "BRD open point: exact internal estimation SLA. PENDING CLIENT CONFIRMATION."
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "issingle": 1,
+ "links": [],
+ "modified": "2026-09-16 09:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "JK CRM",
+ "name": "JK CRM Settings",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "read": 1,
+   "role": "JK Management"
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

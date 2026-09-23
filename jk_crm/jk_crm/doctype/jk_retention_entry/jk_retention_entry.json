@@ -21,6 +21,7 @@
   "release_invoice",
   "cb2",
   "payment_entry",
+  "release_date",
   "sb3",
   "remarks",
   "amended_from"
@@ -90,7 +91,8 @@
    "in_list_view": 1,
    "in_standard_filter": 1,
    "label": "Status",
-   "options": "Pending\nDue\nReleased\nCancelled"
+   "options": "Pending\nDue\nReleased\nCancelled",
+   "allow_on_submit": 1
   },
   {
    "fieldname": "sb2",
@@ -102,7 +104,8 @@
    "fieldname": "release_invoice",
    "fieldtype": "Link",
    "label": "Release Invoice",
-   "options": "Sales Invoice"
+   "options": "Sales Invoice",
+   "allow_on_submit": 1
   },
   {
    "fieldname": "cb2",
@@ -113,7 +116,16 @@
    "fieldname": "payment_entry",
    "fieldtype": "Link",
    "label": "Payment Entry",
-   "options": "Payment Entry"
+   "options": "Payment Entry",
+   "allow_on_submit": 1
+  },
+  {
+   "fieldname": "release_date",
+   "fieldtype": "Date",
+   "label": "Release Date",
+   "read_only": 1,
+   "allow_on_submit": 1,
+   "description": "Set automatically when the Retention Release invoice is submitted (BRD-18)."
   },
   {
    "fieldname": "sb3",

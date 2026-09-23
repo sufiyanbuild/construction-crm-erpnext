@@ -5,6 +5,11 @@ app_description = "Construction CRM and project lifecycle for ERPNext"
 app_email = "hello@jkconsultations.sa"
 app_license = "mit"
 
+# The app builds on ERPNext doctypes (Opportunity, Quotation, Sales Order,
+# Project, Sales Invoice, Payment Entry) and imports erpnext directly, so it
+# cannot be installed on a bare Frappe site.
+required_apps = ["erpnext"]
+
 after_install = "jk_crm.setup.install.after_install"
 
 # BRD business rules -------------------------------------------------------

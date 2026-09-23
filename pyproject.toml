@@ -3,7 +3,7 @@ name = "jk_crm"
 authors = [
     { name = "JK Consultancies", email = "hello@jkconsultations.sa"}
 ]
-description = "ERPNext CRM and Project lifecycle for JK Consultancies BRD QN-2026-0010"
+description = "Construction CRM and project lifecycle for ERPNext"
 requires-python = ">=3.14"
 readme = "README.md"
 dynamic = ["version"]
@@ -14,6 +14,12 @@ dependencies = [
 [build-system]
 requires = ["flit_core >=3.4,<4"]
 build-backend = "flit_core.buildapi"
+
+# Required by bench (>= 5.x) when installing this app with `bench get-app`.
+# Without it, get-app fails with "Could not find a compatible Frappe version in
+# pyproject.toml". The app targets the Frappe v16 line.
+[tool.bench.frappe-dependencies]
+frappe = ">=16.0.0,<17.0.0"
 
 # These dependencies are only installed when developer mode is enabled
 [tool.bench.dev-dependencies]
